@@ -1,13 +1,17 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+/Debug
+/Release
+/Frameworks
+/img
+/Asteroid.app
+/Delivery.command
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
