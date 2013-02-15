@@ -34,7 +34,9 @@
 
 Gun::Gun(Entity* entity)
 : Weapon(entity)
+, cadence(100)
 {
+	m_clock.restart();
 	ammo = 5;
 }
 
@@ -44,37 +46,23 @@ Gun::~Gun()
 
 void Gun::fire()
 {
-	printf("fire \n");
-
 	if( ammo <= 0 ) return;
-
+	if(m_clock.getElapsedTime().asMilliseconds() < cadence) return;
+	m_clock.restart();
 
 	Bullet* bullet = new Bullet();
-	printf("Gun create bullet %d\n",bullet);
-
 	bullet->body()->x = m_entity->body()->x;
 	bullet->body()->y = m_entity->body()->y;
 	bullet->body()->angle = m_entity->body()->angle;
-	bullet->physics()->thrust(10);
-	m_entity->entityCreated(bullet);
+	bullet->physics()->thrust(-10);
 	bullet->destroyed.Connect(this,&Gun::onBulletDied);
-
-//	m_bullets.push_back(bullet);
+	m_entity->entityCreated(bullet);
 
 	Weapon::fire();
 }
 
 void Gun::onBulletDied(Entity* bullet)
 {
-	printf("Gun destroyed entity %d\n",bullet);
-	bullet->destroyed.Disconnect(this,&Gun::onBulletDied);
-//	delete bullet;
-
 	ammo++;
-	//m_entities.remove(entity);
-//	if(entity->view())
-//	{
-//		m_views.remove(entity->view());
-//	}
 }
 

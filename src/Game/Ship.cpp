@@ -93,14 +93,11 @@ void Ship::update()
 //	physics()->thrust(frand_a_b(0.0,0.5));
 	physics()->update();
 
-	if(body()->x < 0 || body()->x > 800)
-	{
-		physics()->velocityX *= -1;
-	}
-	if(body()->y < 0 || body()->y > 600)
-	{
-		physics()->velocityY *= -1;
-	}
+	if(      body()->x <  0  ) body()->x = 800;
+	else if( body()->x > 800 ) body()->x = 0;
+
+	if(      body()->y <  0  ) body()->y = 600;
+	else if( body()->y > 600 ) body()->y = 0;
 
 
 	//	if (frand_a_b(0.0,1.0) < 0.05) weapon()->fire();

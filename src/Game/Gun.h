@@ -30,10 +30,9 @@
 #define GUN_H_
 
 #include <Engine/Weapon.h>
-//#include <list>
+#include <SFML/System/Clock.hpp>
 
 class Entity;
-//class Bullet;
 
 class Gun :public Weapon
 {
@@ -43,8 +42,10 @@ public:
 	virtual void fire();
 
 	void onBulletDied(Entity* bullet);
-//private:
-//	std::list<Bullet*> m_bullets;
+	int cadence;
+	
+private:
+	sf::Clock m_clock;
 
 };
 

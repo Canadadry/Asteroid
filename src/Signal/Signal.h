@@ -10,6 +10,7 @@
 #ifndef _Signal_H_
 #define _Signal_H_
 
+#include  <iostream>
 #include "Delegate.h"
 #include <set>
 

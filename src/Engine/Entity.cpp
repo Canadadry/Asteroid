@@ -36,6 +36,7 @@ Entity::Entity()
 , m_physics      (0)
 , m_weapon       (0)
 , m_view         (0)
+, m_gamepad      (0)
 //, m_group        (0)
 //, m_targets      (0)
 {
@@ -43,7 +44,7 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	destroyed(this);
+//	destroyed(this);
 }
 
 

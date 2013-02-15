@@ -44,7 +44,7 @@ Game::~Game()
 
 void Game::addEntity(Entity* entity)
 {
-	printf("entity created called\n");
+	//printf("entity created called\n");
 	entity->entityCreated.Connect(this,&Game::addEntity);
 	entity->destroyed.Connect(this,&Game::onEntityDestroyed);
 	m_entities.push_back(entity);
@@ -60,8 +60,13 @@ void Game::addEntity(Entity* entity)
 
 void Game::onEntityDestroyed(Entity* entity)
 {
-	printf("Game destroyed entity %d\n",entity);
-	entity->destroyed.Disconnect(this,&Game::onEntityDestroyed);
+	
+	m_entities_to_destroyed.push_back(entity);
+}
+
+
+void Game::destroyedEntity(Entity* entity)
+{
 	m_entities.remove(entity);
 	if(entity->view())
 	{
@@ -71,6 +76,7 @@ void Game::onEntityDestroyed(Entity* entity)
 	{
 		m_gamepads.remove(entity->gamepad());
 	}
+	delete entity;
 }
 
 typedef  std::list<GamePad*>::iterator GamePad_it;
@@ -104,6 +110,11 @@ void Game::update(int elapsedTimeMS)
 	{
 		(*it)->update();
 	}
+	for(Entity_it it = m_entities_to_destroyed.begin(); it != m_entities_to_destroyed.end();it++)
+	{
+		destroyedEntity(*it);
+	}
+	m_entities_to_destroyed.clear();
 }
 
 

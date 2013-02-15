@@ -49,9 +49,11 @@ public:
 
 protected:
     void addEntity(Entity* entity);
+	void destroyedEntity(Entity* entity);
     void onEntityDestroyed(Entity* entity);
 
 private:
+    std::list<Entity*>  m_entities_to_destroyed;
     std::list<Entity*>  m_entities;
     std::list<View*>    m_views;
     std::list<GamePad*> m_gamepads;
