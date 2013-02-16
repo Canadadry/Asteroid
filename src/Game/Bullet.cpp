@@ -60,14 +60,6 @@ Bullet::~Bullet()
 
 void Bullet::update()
 {
-	physics()->update();
-	if(      body()->x <  0  ) body()->x = 800;
-	else if( body()->x > 800 ) body()->x = 0;
-
-	if(      body()->y <  0  ) body()->y = 600;
-	else if( body()->y > 600 ) body()->y = 0;
-
-	m_shape->setPosition(body()->x,body()->y);
 	m_age++;
 //	if (m_age > 20) view()->alpha -= 0.2;
 	if (m_age > 25)

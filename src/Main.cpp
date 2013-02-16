@@ -8,6 +8,8 @@
 #include <Game/AsteroidGame.h>
 #include <cmath>
 
+
+
 int screen_width = 32;
 int screen_height = 24;
 int tile_size = 16;

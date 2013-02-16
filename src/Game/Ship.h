@@ -41,7 +41,6 @@ public:
 	Ship();
 	virtual ~Ship();
 
-    virtual void update() ;
     void onDied();
 
 private:

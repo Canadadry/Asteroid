@@ -37,7 +37,7 @@ public:
 	Body(Entity* entity);
 	virtual ~Body();
 
-	bool collide(const Body& body);
+	bool intersects(const Body& body);
 
 	float  x;
 	float  y;

@@ -36,7 +36,6 @@ Weapon::Weapon(Entity* entity)
 
 Weapon::~Weapon()
 {
-	// TODO Auto-generated destructor stub
 }
 
 void Weapon::fire()

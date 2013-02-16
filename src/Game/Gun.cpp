@@ -32,6 +32,8 @@
 #include <Engine/Body.h>
 #include <Engine/Physics.h>
 
+#include <cmath>
+
 Gun::Gun(Entity* entity)
 : Weapon(entity)
 , cadence(100)
@@ -53,6 +55,8 @@ void Gun::fire()
 	Bullet* bullet = new Bullet();
 	bullet->body()->x = m_entity->body()->x;
 	bullet->body()->y = m_entity->body()->y;
+	bullet->body()->x -= sin(-m_entity->body()->angle) * (m_entity->body()->radius + bullet->body()->radius + 1);
+	bullet->body()->y -= cos(-m_entity->body()->angle) * (m_entity->body()->radius + bullet->body()->radius + 1);
 	bullet->body()->angle = m_entity->body()->angle;
 	bullet->physics()->thrust(-10);
 	bullet->destroyed.Connect(this,&Gun::onBulletDied);

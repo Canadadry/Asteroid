@@ -48,6 +48,7 @@ Ship::Ship()
 	setBody(new Body(this));
 	body()->x = 400;
 	body()->y = 300;
+	body()->radius = 10;
 
 	setPhysics(new Physics(this));
 	physics()->drag = 0.9;
@@ -78,31 +79,6 @@ Ship::~Ship()
 	delete physics();
 	delete view();
 	delete weapon();
-}
-
-void Ship::update()
-{
-//	if(m_turnDirection<0.1)
-//	{
-//		if (frand_a_b(0.0,1.0) < 0.2) m_turnDirection = frand_a_b(-PI/3,PI/3);
-//	}
-//	else{
-//		m_turnDirection -= 0.2;
-//		body()->angle += 0.2;
-//	}
-//	physics()->thrust(frand_a_b(0.0,0.5));
-	physics()->update();
-
-	if(      body()->x <  0  ) body()->x = 800;
-	else if( body()->x > 800 ) body()->x = 0;
-
-	if(      body()->y <  0  ) body()->y = 600;
-	else if( body()->y > 600 ) body()->y = 0;
-
-
-	//	if (frand_a_b(0.0,1.0) < 0.05) weapon()->fire();
-	m_shape->setRotation(body()->angle/PI*180.0 );
-	m_shape->setPosition(body()->x,body()->y);
 }
 
 

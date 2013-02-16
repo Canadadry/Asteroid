@@ -42,7 +42,6 @@ public:
 	Asteroid();
 	virtual ~Asteroid();
 
-    virtual void update() ;
     void onHurt();
 
 private:

@@ -1,7 +1,7 @@
 /*
- * Body.cpp
+ * World.cpp
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 16 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,37 +23,43 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 16 f思r. 2013
  */
 
-#include "Body.h"
-#include <cmath>
+#include "World.h"
+#include <Engine/Body.h>
 
-Body::Body(Entity* entity)
-: x       (0.0)
-, y       (0.0)
-, angle   (0.0)
-, radius  (0.0)
-, m_entity(entity)
+World::World()
 {
 }
 
-Body::~Body()
+World::~World()
 {
 }
 
-bool Body::intersects(const Body& body)
+void World::addBody(Body* body)
 {
-	 float dx = x - body.x;
-	 float dy = y - body.y;
-
-	 bool ret =  sqrt((dx * dx) + (dy * dy)) <= radius + body.radius;
-//	 if(ret)
-	 {
-//		 printf("body 1 %3.2f,%3.2f\n",x)
-	 }
-
-	 return ret;
+	m_bodies.push_back(body);
 }
 
+void World::removeBody(Body* body)
+{
+	m_bodies.remove(body);
+}
 
+typedef std::list<Body*>::iterator bIter;
+bool World::checkBodyCollision(Body* body)
+{
+	bool ret = false;
+	for(bIter it = m_bodies.begin() ; it != m_bodies.end() ; it++ )
+	{
+		if(body == *it) continue;
+		if( body->intersects(**it))
+		{
+			ret = true;//ret | m_collisionHandler->handleCollision(&body,*it);
+		}
+	}
+
+	return ret;
+
+}

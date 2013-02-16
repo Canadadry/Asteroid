@@ -31,12 +31,9 @@
 GamePad::GamePad(Entity* entity)
 : m_entity(entity)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 GamePad::~GamePad()
 {
-	// TODO Auto-generated destructor stub
 }
 

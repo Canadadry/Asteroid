@@ -38,7 +38,8 @@ extern double frand_a_b(double a, double b);
 
 
 Asteroid::Asteroid()
-: m_shape(new sf::CircleShape(20) )
+: Entity()
+, m_shape(new sf::CircleShape(20) )
 {
 	setBody(new Body(this));
 	body()->radius = 20;
@@ -56,6 +57,7 @@ Asteroid::Asteroid()
 	m_shape->setFillColor(sf::Color::Transparent);
 	m_shape->setOutlineThickness(1.0f);
 	m_shape->setOutlineColor(sf::Color::White);
+	m_shape->setOrigin(body()->radius,body()->radius);
 
 	setHealth(new Health(this));
 	health()->hits = 3;
@@ -72,26 +74,12 @@ Asteroid::~Asteroid()
 	delete view();
 }
 
-void Asteroid::update()
-{
-	physics()->update();
-
-	if(      body()->x <  0  ) body()->x = 800;
-	else if( body()->x > 800 ) body()->x = 0;
-	
-	if(      body()->y <  0  ) body()->y = 600;
-	else if( body()->y > 600 ) body()->y = 0;
-
-	m_shape->setRadius(body()->radius);
-	m_shape->setPosition(body()->x,body()->y);
-
-}
-
-
 void Asteroid::onHurt()
 {
 	body()->radius*=0.75;
 	m_shape->setRotation(body()->radius);
+	m_shape->setOrigin(body()->radius,body()->radius);
+	m_shape->setRadius(body()->radius);
 	if(body()->radius < 10)
 	{
 		destroyed(this);

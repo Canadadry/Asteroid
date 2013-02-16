@@ -45,6 +45,8 @@ namespace sf{
 	class RenderTarget;
 }
 
+
+
 class Entity
 {
 public:
@@ -52,9 +54,7 @@ public:
 	virtual ~Entity();
 
 	//ACTION
-//    virtual void destroy()      = 0;
-    virtual void update() = 0;
-//    virtual void render(sf::RenderTarget& screen) const = 0;
+    virtual void update();
 
     // COMPONENTS
 	Body*                body()          const;
@@ -71,25 +71,16 @@ public:
 	void setGamepad      (GamePad* gamepad);
 
 	// SIGNALS
-	Signal1< Entity* >      destroyed;
 	Signal1< Entity* >      entityCreated;
-
-//	// DEPENDENCIES
-//	std::vector<Entity*> group()         const;
-//	std::vector<Entity*> targets()       const;
-//	void setGroup        (std::vector<Entity*> group);
-//	void setTargets      (std::vector<Entity*> targets);
+	Signal1< Entity* >      destroyed;
 
 private:
-	Body* m_body;
-	Health* m_health;
+	Body*    m_body;
+	Health*  m_health;
 	Physics* m_physics;
 	Weapon*  m_weapon;
-	View* m_view;
+	View*    m_view;
 	GamePad* m_gamepad;
-
-//	std::vector<Entity*> m_group;
-//	std::vector<Entity*> m_targets;
 
 };
 

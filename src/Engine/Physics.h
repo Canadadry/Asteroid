@@ -29,14 +29,14 @@
 #ifndef PHYSICS_H_
 #define PHYSICS_H_
 class Entity;
-
+class World;
 class Physics
 {
 public:
 	Physics(Entity* entity);
 	virtual ~Physics();
 
-	void  update();
+	void  update(World& world);
 	void  thrust(float power);
 
 	float   drag;

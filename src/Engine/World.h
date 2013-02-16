@@ -1,7 +1,7 @@
 /*
- * Body.cpp
+ * World.h
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 16 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,37 +23,25 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 16 f思r. 2013
  */
 
-#include "Body.h"
-#include <cmath>
+#ifndef WORLD_H_
+#define WORLD_H_
+#include <list>
 
-Body::Body(Entity* entity)
-: x       (0.0)
-, y       (0.0)
-, angle   (0.0)
-, radius  (0.0)
-, m_entity(entity)
+class Body;
+class World
 {
-}
+public:
+	World();
+	virtual ~World();
+	void addBody(Body* body);
+	void removeBody(Body* body);
+	bool checkBodyCollision(Body* body);
 
-Body::~Body()
-{
-}
+protected:
+    std::list<Body*>    m_bodies;
+};
 
-bool Body::intersects(const Body& body)
-{
-	 float dx = x - body.x;
-	 float dy = y - body.y;
-
-	 bool ret =  sqrt((dx * dx) + (dy * dy)) <= radius + body.radius;
-//	 if(ret)
-	 {
-//		 printf("body 1 %3.2f,%3.2f\n",x)
-	 }
-
-	 return ret;
-}
-
-
+#endif /* WORLD_H_ */

@@ -37,16 +37,11 @@ Entity::Entity()
 , m_weapon       (0)
 , m_view         (0)
 , m_gamepad      (0)
-//, m_group        (0)
-//, m_targets      (0)
-{
-}
+{}
 
-Entity::~Entity()
-{
-//	destroyed(this);
-}
+Entity::~Entity(){}
 
+void Entity::update(){}
 
 Body*                Entity::body()          const{ return m_body          ;}
 View*                Entity::view()          const{ return m_view          ;}
@@ -63,7 +58,4 @@ void Entity::setWeapon (Weapon*  weapon )         { m_weapon  = weapon ; }
 void Entity::setGamepad(GamePad* gamepad)         { m_gamepad = gamepad; }
 
 
-
-//std::vector<Entity*> Entity::group()         const{ return m_group         ;}
-//std::vector<Entity*> Entity::targets()       const{ return m_targets       ;}
 

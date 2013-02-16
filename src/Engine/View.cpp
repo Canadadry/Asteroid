@@ -28,14 +28,22 @@
 
 #include "View.h"
 #include <Engine/Entity.h>
+#include <Engine/Body.h>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+
+
+#define PI 3.14151
+//#define __DEBUG_DRAW__
 
 View::View(Entity* entity)
 : drawable(0)
 , m_entity(entity)
+, m_transformable()
+, m_debugDraw(new sf::CircleShape(10))
 {
-
+	m_debugDraw->setFillColor(sf::Color::Red);
 }
 
 View::~View()
@@ -45,12 +53,21 @@ View::~View()
 
 void View::update()
 {
-
+	m_transformable.setRotation(m_entity->body()->angle/PI*180.0 );
+	m_transformable.setPosition(m_entity->body()->x,m_entity->body()->y);
+	m_debugDraw->setRadius(m_entity->body()->radius);
+	m_debugDraw->setOrigin(m_entity->body()->radius,m_entity->body()->radius);
 }
 
 void View::render(sf::RenderTarget& screen)
 {
-	screen.draw(*drawable);
+	sf::RenderStates states;
+	states.transform = m_transformable.getTransform();
+#ifdef __DEBUG_DRAW__
+	screen.draw(*m_debugDraw,states);
+#else
+	screen.draw(*drawable,states);
+#endif
 }
 
 

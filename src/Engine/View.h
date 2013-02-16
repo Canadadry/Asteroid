@@ -29,10 +29,13 @@
 #ifndef VIEW_H_
 #define VIEW_H_
 
+#include <SFML/Graphics/Transformable.hpp>
+
 class Entity;
 namespace sf{
 	class Drawable;
 	class RenderTarget;
+	class CircleShape;
 }
 
 class View
@@ -47,7 +50,10 @@ public:
 	void render(sf::RenderTarget& screen);
 
 protected:
-	Entity*       m_entity;
+	Entity*            m_entity;
+	sf::Transformable  m_transformable;
+	sf::CircleShape*   m_debugDraw;
+
 
 };
 

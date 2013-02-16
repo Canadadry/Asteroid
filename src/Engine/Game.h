@@ -36,6 +36,10 @@ class Screen;
 class Entity;
 class View;
 class GamePad;
+class Body;
+class Physics;
+
+#include <Engine/World.h>s
 
 class Game: public Screen
 {
@@ -57,6 +61,8 @@ private:
     std::list<Entity*>  m_entities;
     std::list<View*>    m_views;
     std::list<GamePad*> m_gamepads;
+    std::list<Physics*> m_physics;
+    World               m_world;
 
 
 };

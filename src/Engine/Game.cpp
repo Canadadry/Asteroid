@@ -30,6 +30,7 @@
 #include <Engine/Entity.h>
 #include <Engine/View.h>
 #include <Engine/GamePad.h>
+#include <Engine/Physics.h>
 
 #include <SFML/Window/Event.hpp>
 
@@ -44,7 +45,6 @@ Game::~Game()
 
 void Game::addEntity(Entity* entity)
 {
-	//printf("entity created called\n");
 	entity->entityCreated.Connect(this,&Game::addEntity);
 	entity->destroyed.Connect(this,&Game::onEntityDestroyed);
 	m_entities.push_back(entity);
@@ -56,11 +56,18 @@ void Game::addEntity(Entity* entity)
 	{
 		m_gamepads.push_front(entity->gamepad());
 	}
+	if(entity->physics())
+	{
+		m_physics.push_front(entity->physics());
+	}
+	if(entity->body())
+	{
+		m_world.addBody(entity->body());
+	}
 }
 
 void Game::onEntityDestroyed(Entity* entity)
 {
-	
 	m_entities_to_destroyed.push_back(entity);
 }
 
@@ -76,6 +83,16 @@ void Game::destroyedEntity(Entity* entity)
 	{
 		m_gamepads.remove(entity->gamepad());
 	}
+	if(entity->physics())
+	{
+		m_physics.remove(entity->physics());
+	}
+	if(entity->body())
+	{
+		m_world.removeBody(entity->body());
+	}
+
+
 	delete entity;
 }
 
@@ -91,13 +108,16 @@ void Game::handleEvent(const sf::Event& Event)
 typedef  std::list<View*>::iterator View_it;
 void Game::render(sf::RenderTarget* screen_surface)
 {
+
 	for(View_it it = m_views.begin(); it != m_views.end();it++)
 	{
+		(*it)->update();
 		(*it)->render(*screen_surface);
 	}
 }
 
 typedef  std::list<Entity*>::iterator Entity_it;
+typedef  std::list<Physics*>::iterator Physic_it;
 void Game::update(int elapsedTimeMS)
 {
 	sf::Event Event;
@@ -105,7 +125,10 @@ void Game::update(int elapsedTimeMS)
 	{
 		(*it)->handleEvent(Event);
 	}
-
+	for(Physic_it it = m_physics.begin(); it != m_physics.end();it++)
+	{
+		(*it)->update(m_world );
+	}
 	for(Entity_it it = m_entities.begin(); it != m_entities.end();it++)
 	{
 		(*it)->update();
