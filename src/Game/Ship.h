@@ -30,16 +30,20 @@
 #define SHIP_H_
 
 #include <Engine/Entity.h>
+#include <Engine/Body.h>
+
 
 namespace sf{
 	class ConvexShape;
 }
 
-class Ship :public Entity
+class Ship :public Entity, public CollisionHandler
 {
 public:
 	Ship();
 	virtual ~Ship();
+	virtual bool HandleCollision(Body* body);
+
 
     void onDied();
 

@@ -34,6 +34,8 @@
 #include <Engine/Weapon.h>
 
 #include <Game/Gun.h>
+#include <Game/EntityType.h>
+
 
 #include <SFML/Graphics/ConvexShape.hpp>
 
@@ -49,6 +51,9 @@ Ship::Ship()
 	body()->x = 400;
 	body()->y = 300;
 	body()->radius = 10;
+	body()->type = EntityType::EntityShip;
+	body()->collisionHandler = this;
+
 
 	setPhysics(new Physics(this));
 	physics()->drag = 0.9;
@@ -81,6 +86,10 @@ Ship::~Ship()
 	delete weapon();
 }
 
+
+bool Ship::HandleCollision(Body* body)
+{
+}
 
 void Ship::onDied()
 {

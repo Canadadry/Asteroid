@@ -1,7 +1,7 @@
 /*
- * Body.cpp
+ * EntityType.h
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 17 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,49 +23,22 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 17 f思r. 2013
  */
 
-#include "Body.h"
-#include <cmath>
+#ifndef ENTITYTYPE_H_
+#define ENTITYTYPE_H_
 
-Body::Body(Entity* entity)
-: x       (0.0)
-, y       (0.0)
-, angle   (0.0)
-, radius  (0.0)
-, type    (0)
-, collisionHandler(0)
-, m_entity(entity)
+namespace EntityType{
+
+enum EntityType
 {
+	EntityShip     = 0,
+	EntityAsteroid    ,
+	EntityBullet
+
+};
+
+
 }
-
-Body::~Body()
-{
-}
-
-Entity* Body::entity()
-{
-	return m_entity;
-}
-
-bool Body::intersects(const Body& body)
-{
-	 float dx = x - body.x;
-	 float dy = y - body.y;
-
-	 return  sqrt((dx * dx) + (dy * dy)) <= radius + body.radius;
-}
-
-
-bool Body::handleCollision(Body* body)
-{
-	bool ret = true;
-	if(collisionHandler)
-	{
-		ret = collisionHandler->HandleCollision(body);
-	}
-	return ret;
-}
-
-
+#endif /* ENTITYTYPE_H_ */

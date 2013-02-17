@@ -32,6 +32,8 @@
 #include <Engine/View.h>
 #include <Engine/Health.h>
 
+#include <Game/EntityType.h>
+
 #include <SFML/Graphics/CircleShape.hpp>
 
 extern double frand_a_b(double a, double b);
@@ -42,13 +44,15 @@ Asteroid::Asteroid()
 , m_shape(new sf::CircleShape(20) )
 {
 	setBody(new Body(this));
-	body()->radius = 20;
+	body()->angle = frand_a_b(0.0,360.0);
+	body()->radius = frand_a_b(5.0,30.0);
 	body()->x = frand_a_b(10.0,790.0);
 	body()->y = frand_a_b(10.0,590.0);
+	body()->type = EntityType::EntityAsteroid;
+	body()->collisionHandler = this;
 
 	setPhysics(new Physics(this));
-	physics()->velocityX = frand_a_b(-1.0,1.0);
-	physics()->velocityY = frand_a_b(-1.0,1.0);
+	physics()->thrust(frand_a_b(0.0,2.0));
 	physics()->drag = 1.0;
 
 
@@ -74,13 +78,36 @@ Asteroid::~Asteroid()
 	delete view();
 }
 
+bool Asteroid::HandleCollision(Body* body)
+{
+	bool ret = false;
+//	switch(body->type)
+//	{
+//		case EntityType::EntityAsteroid: ret = true;break;
+//		case EntityType::EntityBullet  : break;
+//		case EntityType::EntityShip    : break;
+//	}
+
+	return ret;
+}
+
+
+void Asteroid::update()
+{
+	m_shape->setRadius(body()->radius);
+}
+
 void Asteroid::onHurt()
 {
+
 	body()->radius*=0.75;
 	m_shape->setRotation(body()->radius);
 	m_shape->setOrigin(body()->radius,body()->radius);
 	m_shape->setRadius(body()->radius);
-	if(body()->radius < 10)
+	physics()->velocityX *= -1 ;
+	physics()->velocityY *= -1 ;
+
+	if(body()->radius < 4)
 	{
 		destroyed(this);
 		return;
@@ -90,6 +117,8 @@ void Asteroid::onHurt()
 	asteroid->body()->x = body()->x ;
 	asteroid->body()->y = body()->y ;
 	asteroid->body()->radius = body()->radius;
+	asteroid->body()->angle = body()->radius;
+
 	entityCreated(asteroid);
 
 }

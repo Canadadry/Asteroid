@@ -35,6 +35,9 @@
 #include <Engine/Health.h>
 #include <Engine/Weapon.h>
 
+#include <Game/EntityType.h>
+
+
 Bullet::Bullet()
 :Entity()
 , m_shape(new sf::CircleShape(2))
@@ -42,6 +45,8 @@ Bullet::Bullet()
 {
 	setBody(new Body(this));
 	body()->radius = 2;
+	body()->collisionHandler = this;
+	body()->type = EntityType::EntityBullet;
 
 	setPhysics(new Physics(this));
 	physics()->drag = 1.0;
@@ -57,6 +62,22 @@ Bullet::~Bullet()
 	delete physics();
 	delete view();
 }
+
+
+bool Bullet::HandleCollision(Body* body)
+{
+	bool ret = true;
+	switch(body->type)
+	{
+
+		case EntityType::EntityBullet  : break;
+		case EntityType::EntityAsteroid:
+		case EntityType::EntityShip    : body->entity()->health()->hit(1);break;
+	}
+	destroyed(this);
+	return ret;
+}
+
 
 void Bullet::update()
 {

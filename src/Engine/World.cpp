@@ -56,7 +56,7 @@ bool World::checkBodyCollision(Body* body)
 		if(body == *it) continue;
 		if( body->intersects(**it))
 		{
-			ret = true;//ret | m_collisionHandler->handleCollision(&body,*it);
+			ret = ret | body->handleCollision(*it);
 		}
 	}
 

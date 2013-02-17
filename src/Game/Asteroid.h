@@ -30,17 +30,22 @@
 #define ASTEROID_H_
 
 #include <Engine/Entity.h>
+#include <Engine/Body.h>
 
 namespace sf{
 	class CircleShape;
 }
 
 
-class Asteroid: public Entity
+class Asteroid: public Entity, public CollisionHandler
 {
 public:
 	Asteroid();
 	virtual ~Asteroid();
+
+	virtual bool HandleCollision(Body* body);
+    virtual void update();
+
 
     void onHurt();
 

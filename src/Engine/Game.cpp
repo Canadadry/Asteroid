@@ -34,6 +34,14 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include <algorithm>
+
+typedef  std::list<GamePad*>::iterator GamePad_it;
+typedef  std::list<View*>::iterator View_it;
+typedef  std::list<Entity*>::iterator Entity_it;
+typedef  std::list<Physics*>::iterator Physic_it;
+
+
 Game::Game()
 : m_entities()
 {
@@ -45,6 +53,12 @@ Game::~Game()
 
 void Game::addEntity(Entity* entity)
 {
+	Entity_it findIter = std::find(m_entities.begin(), m_entities.end(), entity);
+	if(findIter != m_entities.end())
+	{
+		printf("entity already added!!!\n");
+		return;
+	}
 	entity->entityCreated.Connect(this,&Game::addEntity);
 	entity->destroyed.Connect(this,&Game::onEntityDestroyed);
 	m_entities.push_back(entity);
@@ -68,6 +82,13 @@ void Game::addEntity(Entity* entity)
 
 void Game::onEntityDestroyed(Entity* entity)
 {
+	Entity_it findIter = std::find(m_entities_to_destroyed.begin(), m_entities_to_destroyed.end(), entity);
+
+	if(findIter != m_entities_to_destroyed.end())
+	{
+		printf("entity already register to be destroyed!!!\n");
+		return;
+	}
 	m_entities_to_destroyed.push_back(entity);
 }
 
@@ -96,7 +117,7 @@ void Game::destroyedEntity(Entity* entity)
 	delete entity;
 }
 
-typedef  std::list<GamePad*>::iterator GamePad_it;
+
 void Game::handleEvent(const sf::Event& Event)
 {
 //	for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
@@ -105,7 +126,6 @@ void Game::handleEvent(const sf::Event& Event)
 //	}
 }
 
-typedef  std::list<View*>::iterator View_it;
 void Game::render(sf::RenderTarget* screen_surface)
 {
 
@@ -116,8 +136,7 @@ void Game::render(sf::RenderTarget* screen_surface)
 	}
 }
 
-typedef  std::list<Entity*>::iterator Entity_it;
-typedef  std::list<Physics*>::iterator Physic_it;
+
 void Game::update(int elapsedTimeMS)
 {
 	sf::Event Event;

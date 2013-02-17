@@ -33,13 +33,14 @@
 
 AsteroidGame::AsteroidGame()
 {
+	int asteroidCount = 15;
 	Entity* ship = new Ship();
 	ship->setGamepad(new IAShip(ship));
 	addEntity(ship);
-	addEntity(new Asteroid());
-	addEntity(new Asteroid());
-	addEntity(new Asteroid());
-	addEntity(new Asteroid());
+	for(int i = 0; i<asteroidCount;i++ )
+	{
+		addEntity(new Asteroid());
+	}
 }
 
 AsteroidGame::~AsteroidGame()

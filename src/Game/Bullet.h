@@ -30,16 +30,18 @@
 #define BULLET_H_
 
 #include <Engine/Entity.h>
+#include <Engine/Body.h>
 
 namespace sf{
 	class Shape;
 }
 
-class Bullet : public Entity
+class Bullet : public Entity, public CollisionHandler
 {
 public:
 	Bullet();
 	virtual ~Bullet();
+	virtual bool HandleCollision(Body* body);
 
 	virtual void update();
 

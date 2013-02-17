@@ -30,6 +30,13 @@
 #define BODY_H_
 
 class Entity;
+class Body;
+
+class CollisionHandler{
+public:
+	virtual ~CollisionHandler(){}
+	virtual bool HandleCollision(Body* body) = 0;
+};
 
 class Body
 {
@@ -38,14 +45,21 @@ public:
 	virtual ~Body();
 
 	bool intersects(const Body& body);
+	bool handleCollision(Body* body);
 
 	float  x;
 	float  y;
 	float  angle;
 	float  radius;
+	int    type;
+	CollisionHandler* collisionHandler;
+
+
+	Entity* entity();
 
 private:
 	Entity* m_entity;
+
 
 };
 
