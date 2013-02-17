@@ -1,7 +1,7 @@
 /*
- * Ship.h
+ * HUD.cpp
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 18 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,32 +23,41 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 18 f思r. 2013
  */
 
-#ifndef SHIP_H_
-#define SHIP_H_
-
-#include <Engine/Entity.h>
-#include <Engine/Body.h>
+#include "HUD.h"
+#include <Game/AsteroidGame.h>
+#include <Engine/View.h>
 
 
-namespace sf{
-	class ConvexShape;
+extern std::string path;
+
+HUD::HUD()
+: Entity()
+, m_text()
+{
+
+	m_font.loadFromFile(path+"/visitor1.ttf");
+	setView(new View(this));
+	view()->drawable=&m_text;
+	m_text.setColor(sf::Color::White);
+	m_text.setCharacterSize(20);
+	m_text.setFont(m_font);
+	m_text.move(10,0);
 }
 
-class Ship :public Entity, public CollisionHandler
+HUD::~HUD()
 {
-public:
-	Ship();
-	virtual ~Ship();
-	virtual bool HandleCollision(Body* body);
+}
 
-	void onDied();
-	virtual void update();
+void HUD::update()
+{
+	char text[255] = {0};
+	AsteroidGame* agame = (AsteroidGame*)game;
+	sprintf(text,"health : %1d score : %03d",agame->shipHealth,agame->score);
+	m_text.setString(text);
 
-private:
-    sf::ConvexShape* m_shape;
-};
+}
 
-#endif /* SHIP_H_ */
+

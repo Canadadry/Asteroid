@@ -36,6 +36,7 @@
 #include <Engine/Weapon.h>
 
 #include <Game/EntityType.h>
+#include <Game/AsteroidGame.h>
 
 
 Bullet::Bullet()
@@ -71,7 +72,10 @@ bool Bullet::HandleCollision(Body* body)
 	{
 
 		case EntityType::EntityBullet  : break;
-		case EntityType::EntityAsteroid:
+		case EntityType::EntityAsteroid: {
+			AsteroidGame* agame = (AsteroidGame*)game;
+			agame->score += 10;
+		}
 		case EntityType::EntityShip    : body->entity()->health()->hit(1);break;
 	}
 	destroyed(this);

@@ -1,7 +1,7 @@
 /*
- * Transition.h
+ * HUD.h
  *
- * TileGame - Copyright (c) 6 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 18 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,39 +23,26 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 6 f思r. 2013
+ *  Created on: 18 f思r. 2013
  */
 
-#ifndef TRANSITION_H_
-#define TRANSITION_H_
+#ifndef HUD_H_
+#define HUD_H_
 
+#include <Engine/Entity.h>
 #include <SFML/Graphics.hpp>
 
-class Screen;
-
-class ScreenEffect
+class HUD : public Entity
 {
 public:
-	ScreenEffect(Screen* screen,int duration, sf::Vector2f startPos=sf::Vector2f(0.5,0.5));
-	virtual ~ScreenEffect();
+	HUD();
+	virtual ~HUD();
 
-
-	virtual void display(sf::RenderTarget* screen_surface);
-    virtual void update(int elapsedTimeMS);
-
-    void setFragmentProgram(const std::string& filename);
-
-    bool isPlaying() const;
+	virtual void update();
 
 private:
-    sf::RenderTexture m_texture;
-    sf::Shader        m_shader;
-    sf::Sprite        m_sprite;
-    int               m_duration;
-    sf::Clock         m_clock;
-    Screen*           m_screen;
-    sf::Vector2f      m_startPos;
-
+	sf::Text m_text;
+	sf::Font m_font;
 };
 
-#endif /* TRANSITION_H_ */
+#endif /* HUD_H_ */

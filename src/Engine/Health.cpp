@@ -30,8 +30,12 @@
 
 Health::Health(Entity* entity)
 : hits(0)
+, invincibilityFrame(500)
 , m_entity(entity)
-{}
+,m_clock()
+{
+	m_clock.restart();
+}
 
 Health::~Health()
 {
@@ -39,12 +43,23 @@ Health::~Health()
 
 void Health::hit(int damage)
 {
-	hits -= damage;
-
-	hurt();
-
-	if (hits < 0)
+	if(!invincible())
 	{
-		died();
+		m_clock.restart();
+		hits -= damage;
+
+		hurt();
+
+		if (hits < 0)
+		{
+			died();
+		}
 	}
 }
+
+bool Health::invincible()
+{
+	return 	(m_clock.getElapsedTime().asMilliseconds() < invincibilityFrame);
+
+}
+

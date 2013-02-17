@@ -30,6 +30,7 @@
 #define HEALTH_H_
 
 #include <Signal/Signal.h>
+#include <SFML/System/Clock.hpp>
 
 class Entity;
 
@@ -40,13 +41,16 @@ public:
 	virtual ~Health();
 
 	void hit(int damage);
+	bool invincible();
 
 	int               hits;
+	int               invincibilityFrame;
 	Signal0 <void>    died;
 	Signal0 <void>    hurt;
 
 private:
-	Entity* m_entity;
+	Entity*   m_entity;
+	sf::Clock m_clock;
 
 };
 

@@ -34,8 +34,12 @@
 class AsteroidGame : public Game
 {
 public:
-	AsteroidGame();
+	AsteroidGame(int window_width = 800,int window_height = 600 );
 	virtual ~AsteroidGame();
+
+
+	int score;
+	int shipHealth;
 };
 
 #endif /* ASTEROIDGAME_H_ */

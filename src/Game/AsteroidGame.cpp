@@ -30,8 +30,10 @@
 #include <Game/Ship.h>
 #include <Game/IAShip.h>
 #include <Game/Asteroid.h>
+#include <Game/HUD.h>
 
-AsteroidGame::AsteroidGame()
+AsteroidGame::AsteroidGame(int window_width,int window_height)
+: Game(window_width,window_height)
 {
 	int asteroidCount = 15;
 	Entity* ship = new Ship();
@@ -41,6 +43,7 @@ AsteroidGame::AsteroidGame()
 	{
 		addEntity(new Asteroid());
 	}
+	addEntity(new HUD());
 }
 
 AsteroidGame::~AsteroidGame()

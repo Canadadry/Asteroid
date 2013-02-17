@@ -44,12 +44,14 @@ class Physics;
 class Game: public Screen
 {
 public:
-	Game();
+	Game(int window_width = 800,int window_height = 600 );
 	virtual ~Game();
 
 	virtual void render(sf::RenderTarget* screen_surface);
 	virtual void handleEvent(const sf::Event& Event) ;
     virtual void update(int elapsedTimeMS) ;
+	int windowHeight() const;
+	int windowWidth() const;
 
 protected:
     void addEntity(Entity* entity);
@@ -63,6 +65,9 @@ private:
     std::list<GamePad*> m_gamepads;
     std::list<Physics*> m_physics;
     World               m_world;
+
+	int m_window_width;
+	int m_window_height;
 
 
 };

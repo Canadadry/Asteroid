@@ -6,7 +6,7 @@ class RenderTarget;
 class Event;
 }
 
-class ScreenEffect;
+//class ScreenEffect;
 
 class Screen {
 
@@ -15,14 +15,14 @@ private:
 
 	bool myScreenIsFinished;
 	Screen *myNextScreen;
-	ScreenEffect* m_played_effect;
+//	ScreenEffect* m_played_effect;
 
 protected:
 
 	Screen();
 	void setNextScreen(Screen *nextScreen);
-	void playEffect(ScreenEffect* effect);
-	void stopEffect();
+//	void playEffect(ScreenEffect* effect);
+//	void stopEffect();
 	virtual void render(sf::RenderTarget* screen_surface) = 0;
 
 public:

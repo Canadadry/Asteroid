@@ -53,10 +53,15 @@ View::~View()
 
 void View::update()
 {
-	m_transformable.setRotation(m_entity->body()->angle/PI*180.0 );
-	m_transformable.setPosition(m_entity->body()->x,m_entity->body()->y);
-	m_debugDraw->setRadius(m_entity->body()->radius);
-	m_debugDraw->setOrigin(m_entity->body()->radius,m_entity->body()->radius);
+	if(m_entity->body())
+	{
+		m_transformable.setRotation(m_entity->body()->angle/PI*180.0 );
+		m_transformable.setPosition(m_entity->body()->x,m_entity->body()->y);
+#ifdef __DEBUG_DRAW__
+		m_debugDraw->setRadius(m_entity->body()->radius);
+		m_debugDraw->setOrigin(m_entity->body()->radius,m_entity->body()->radius);
+#endif
+	}
 }
 
 void View::render(sf::RenderTarget& screen)

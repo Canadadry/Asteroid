@@ -9,11 +9,6 @@
 #include <cmath>
 
 
-
-int screen_width = 32;
-int screen_height = 24;
-int tile_size = 16;
-
 std::string path = "img";
 
 int main(int argc, char** argv)
@@ -32,7 +27,7 @@ int main(int argc, char** argv)
 	window.setKeyRepeatEnabled(false);
 	sf::Clock clock;
 
-	AsteroidGame game;
+	AsteroidGame game(800,600);
 	Screen* currentScreen = &game;
 
 	int elapsedTimeMS = 0;

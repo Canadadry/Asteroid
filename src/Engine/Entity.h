@@ -40,6 +40,7 @@ class Health;
 class Weapon;
 class View;
 class GamePad;
+class Game;
 
 namespace sf{
 	class RenderTarget;
@@ -73,6 +74,8 @@ public:
 	// SIGNALS
 	Signal1< Entity* >      entityCreated;
 	Signal1< Entity* >      destroyed;
+
+	Game*                   game;
 
 private:
 	Body*    m_body;

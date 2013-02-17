@@ -35,7 +35,7 @@
 
 #include <Game/Gun.h>
 #include <Game/EntityType.h>
-
+#include <Game/AsteroidGame.h>
 
 #include <SFML/Graphics/ConvexShape.hpp>
 
@@ -70,6 +70,7 @@ Ship::Ship()
 
 	setHealth(new Health(this));
 	health()->hits = 5;
+	health()->died.Connect(this,&Ship::onDied);
 
 	Weapon* weapon = 0;
 	weapon = new Gun(this);
@@ -86,12 +87,31 @@ Ship::~Ship()
 	delete weapon();
 }
 
-
 bool Ship::HandleCollision(Body* body)
 {
+	return false;
 }
 
 void Ship::onDied()
 {
+	printf("loose!!!!!\n");
 	destroyed(this);
 }
+
+void Ship::update()
+{
+	AsteroidGame* agame = (AsteroidGame*)game;
+	agame->shipHealth = health()->hits;
+
+	if(health()->invincible())
+	{
+		if(m_shape->getOutlineColor() != sf::Color::Yellow)
+			m_shape->setOutlineColor(sf::Color::Yellow);
+	}
+	else
+	{
+		if(m_shape->getOutlineColor() != sf::Color::White)
+			m_shape->setOutlineColor(sf::Color::White);
+	}
+}
+

@@ -81,12 +81,17 @@ Asteroid::~Asteroid()
 bool Asteroid::HandleCollision(Body* body)
 {
 	bool ret = false;
-//	switch(body->type)
-//	{
-//		case EntityType::EntityAsteroid: ret = true;break;
-//		case EntityType::EntityBullet  : break;
-//		case EntityType::EntityShip    : break;
-//	}
+	switch(body->type)
+	{
+		case EntityType::EntityAsteroid: break;
+		case EntityType::EntityBullet  : break;
+		case EntityType::EntityShip    : {
+			body->entity()->health()->hit(1);
+			//printf("hitting ship!\n");
+			break;
+		}
+
+	}
 
 	return ret;
 }
@@ -95,6 +100,16 @@ bool Asteroid::HandleCollision(Body* body)
 void Asteroid::update()
 {
 	m_shape->setRadius(body()->radius);
+	if(health()->invincible())
+	{
+		if(m_shape->getOutlineColor() != sf::Color::Yellow)
+			m_shape->setOutlineColor(sf::Color::Yellow);
+	}
+	else
+	{
+		if(m_shape->getOutlineColor() != sf::Color::White)
+			m_shape->setOutlineColor(sf::Color::White);
+	}
 }
 
 void Asteroid::onHurt()

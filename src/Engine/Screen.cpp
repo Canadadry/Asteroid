@@ -1,10 +1,10 @@
 #include "Screen.h"
-#include "ScreenEffect.h"
+//#include "ScreenEffect.h"
 
 Screen::Screen()
 : myScreenIsFinished(false)
 , myNextScreen(0)
-, m_played_effect(0)
+//, m_played_effect(0)
 {	
 }
 
@@ -13,26 +13,26 @@ Screen::~Screen()
 }
 
 
-void Screen::playEffect(ScreenEffect* effect)
-{
-	m_played_effect = effect;
-}
-
-void Screen::stopEffect()
-{
-	playEffect(0);
-}
+//void Screen::playEffect(ScreenEffect* effect)
+//{
+//	m_played_effect = effect;
+//}
+//
+//void Screen::stopEffect()
+//{
+//	playEffect(0);
+//}
 
 void Screen::display(sf::RenderTarget* screen_surface)
 {
-	if(m_played_effect!=0)
-	{
-		m_played_effect->display(screen_surface);
-	}
-	else
-	{
+//	if(m_played_effect!=0)
+//	{
+//		m_played_effect->display(screen_surface);
+//	}
+//	else
+//	{
 		render(screen_surface);
-	}
+//	}
 }
 
 void Screen::setNextScreen(Screen *nextScreen) 

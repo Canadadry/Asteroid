@@ -42,8 +42,10 @@ typedef  std::list<Entity*>::iterator Entity_it;
 typedef  std::list<Physics*>::iterator Physic_it;
 
 
-Game::Game()
+Game::Game(int window_width,int window_height)
 : m_entities()
+, m_window_width(window_width)
+, m_window_height(window_height)
 {
 }
 
@@ -59,6 +61,7 @@ void Game::addEntity(Entity* entity)
 		printf("entity already added!!!\n");
 		return;
 	}
+	entity->game = this;
 	entity->entityCreated.Connect(this,&Game::addEntity);
 	entity->destroyed.Connect(this,&Game::onEntityDestroyed);
 	m_entities.push_back(entity);
@@ -158,5 +161,16 @@ void Game::update(int elapsedTimeMS)
 	}
 	m_entities_to_destroyed.clear();
 }
+
+int Game::windowHeight() const
+{
+	return m_window_height;
+}
+
+int Game::windowWidth() const
+{
+	return m_window_width;
+}
+
 
 

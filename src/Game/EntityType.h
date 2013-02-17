@@ -35,7 +35,8 @@ enum EntityType
 {
 	EntityShip     = 0,
 	EntityAsteroid    ,
-	EntityBullet
+	EntityBullet      ,
+	ENtityHUD
 
 };
 
