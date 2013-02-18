@@ -1,7 +1,7 @@
 /*
- * AsteroidGame.h
+ * EndScreen.h
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 18 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,25 +23,30 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 18 f思r. 2013
  */
 
-#ifndef ASTEROIDGAME_H_
-#define ASTEROIDGAME_H_
+#ifndef ENDSCREEN_H_
+#define ENDSCREEN_H_
 
-#include <Engine/Game.h>
+#include <SFML/Graphics.hpp>
+#include <Engine/Screen.h>
 
-class AsteroidGame : public Game
+class EndScreen : public Screen
 {
 public:
-	AsteroidGame(int window_width = 800,int window_height = 600 );
-	virtual ~AsteroidGame();
+	EndScreen(int score);
+	virtual ~EndScreen();
 
-	void loose(Entity* entity);
+	virtual void render(sf::RenderTarget* screen_surface);
+	virtual void handleEvent(const sf::Event& Event);
+    virtual void update(int elapsedTimeMS);
+
+protected:
+	sf::Text m_text;
+	sf::Font m_font;
 
 
-	int score;
-	int shipHealth;
 };
 
-#endif /* ASTEROIDGAME_H_ */
+#endif /* ENDSCREEN_H_ */

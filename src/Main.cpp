@@ -8,6 +8,8 @@
 #include <Game/AsteroidGame.h>
 #include <cmath>
 
+int window_width = 800;
+int window_height = 600;
 
 std::string path = "img";
 
@@ -22,7 +24,7 @@ int main(int argc, char** argv)
 	path = path.substr(0,path.rfind("/"));
 	path += "/Resources";
 
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Asteroid",sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Asteroid",sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 	sf::Clock clock;

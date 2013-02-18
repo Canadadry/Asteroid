@@ -55,7 +55,7 @@ void HUD::update()
 {
 	char text[255] = {0};
 	AsteroidGame* agame = (AsteroidGame*)game;
-	sprintf(text,"health : %1d score : %03d",agame->shipHealth,agame->score);
+	sprintf(text,"health : %1d score : %04d",agame->shipHealth,agame->score);
 	m_text.setString(text);
 
 }

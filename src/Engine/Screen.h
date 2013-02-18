@@ -10,7 +10,7 @@ class Event;
 
 class Screen {
 
-	friend class ScreenEffect;
+//	friend class ScreenEffect;
 private:
 
 	bool myScreenIsFinished;

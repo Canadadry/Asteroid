@@ -75,6 +75,7 @@ Ship::Ship()
 	Weapon* weapon = 0;
 	weapon = new Gun(this);
 	setWeapon(weapon);
+
 }
 
 Ship::~Ship()
@@ -94,7 +95,6 @@ bool Ship::HandleCollision(Body* body)
 
 void Ship::onDied()
 {
-	printf("loose!!!!!\n");
 	destroyed(this);
 }
 

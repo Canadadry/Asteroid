@@ -31,6 +31,7 @@
 #include <Game/IAShip.h>
 #include <Game/Asteroid.h>
 #include <Game/HUD.h>
+#include <Game/EndScreen.h>
 
 AsteroidGame::AsteroidGame(int window_width,int window_height)
 : Game(window_width,window_height)
@@ -39,6 +40,8 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 	Entity* ship = new Ship();
 	ship->setGamepad(new IAShip(ship));
 	addEntity(ship);
+	ship->destroyed.Connect(this,&AsteroidGame::loose);
+
 	for(int i = 0; i<asteroidCount;i++ )
 	{
 		addEntity(new Asteroid());
@@ -49,4 +52,12 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 AsteroidGame::~AsteroidGame()
 {
 }
+
+void AsteroidGame::loose(Entity* entity)
+{
+	setNextScreen(new EndScreen(score));
+}
+
+
+
 

@@ -57,6 +57,7 @@ protected:
     void addEntity(Entity* entity);
 	void destroyedEntity(Entity* entity);
     void onEntityDestroyed(Entity* entity);
+    void clear();
 
 private:
     std::list<Entity*>  m_entities_to_destroyed;

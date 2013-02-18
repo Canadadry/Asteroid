@@ -1,7 +1,7 @@
 /*
- * AsteroidGame.h
+ * EndScreen.cpp
  *
- * Asteroid - Copyright (c) 12 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 18 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,25 +23,52 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 f思r. 2013
+ *  Created on: 18 f思r. 2013
  */
 
-#ifndef ASTEROIDGAME_H_
-#define ASTEROIDGAME_H_
+#include "EndScreen.h"
+#include <SFML/Window/Keyboard.hpp>
+#include <Game/AsteroidGame.h>
 
-#include <Engine/Game.h>
+extern int window_width;
+extern int window_height;
+extern std::string path;
 
-class AsteroidGame : public Game
+
+EndScreen::EndScreen(int score)
+:Screen()
 {
-public:
-	AsteroidGame(int window_width = 800,int window_height = 600 );
-	virtual ~AsteroidGame();
+	m_font.loadFromFile(path+"/visitor1.ttf");
+	m_text.setColor(sf::Color::White);
+	m_text.setCharacterSize(90);
+	m_text.setFont(m_font);
+	m_text.move(100,100);
 
-	void loose(Entity* entity);
+	char text[255] = {0};
+	sprintf(text,"score : %04d",score);
+	m_text.setString(text);
 
 
-	int score;
-	int shipHealth;
-};
+}
 
-#endif /* ASTEROIDGAME_H_ */
+EndScreen::~EndScreen()
+{
+}
+
+void EndScreen::render(sf::RenderTarget* screen_surface)
+{
+	screen_surface->draw(m_text);
+}
+
+void EndScreen::update(int elapsedTimeMS)
+{
+
+}
+
+void EndScreen::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::KeyPressed)
+	{
+		setNextScreen(new AsteroidGame(window_width,window_height));
+	}
+}

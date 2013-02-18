@@ -51,6 +51,10 @@ Game::Game(int window_width,int window_height)
 
 Game::~Game()
 {
+	for(Entity_it it = m_entities.begin(); it != m_entities.end();it++)
+	{
+		destroyedEntity(*it);
+	}
 }
 
 void Game::addEntity(Entity* entity)
@@ -96,37 +100,51 @@ void Game::onEntityDestroyed(Entity* entity)
 }
 
 
+
+void Game::clear()
+{
+	for(Entity_it it = m_entities.begin(); it != m_entities.end();it++)
+	{
+		onEntityDestroyed(*it);
+	}
+}
+
 void Game::destroyedEntity(Entity* entity)
 {
-	m_entities.remove(entity);
-	if(entity->view())
+	Entity_it findIter = std::find(m_entities_to_destroyed.begin(), m_entities_to_destroyed.end(), entity);
+
+	if(findIter != m_entities_to_destroyed.end())
 	{
-		m_views.remove(entity->view());
-	}
-	if(entity->gamepad())
-	{
-		m_gamepads.remove(entity->gamepad());
-	}
-	if(entity->physics())
-	{
-		m_physics.remove(entity->physics());
-	}
-	if(entity->body())
-	{
-		m_world.removeBody(entity->body());
-	}
+		m_entities.remove(entity);
+		if(entity->view())
+		{
+			m_views.remove(entity->view());
+		}
+		if(entity->gamepad())
+		{
+			m_gamepads.remove(entity->gamepad());
+		}
+		if(entity->physics())
+		{
+			m_physics.remove(entity->physics());
+		}
+		if(entity->body())
+		{
+			m_world.removeBody(entity->body());
+		}
 
 
-	delete entity;
+		delete entity;
+	}
 }
 
 
 void Game::handleEvent(const sf::Event& Event)
 {
-//	for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
-//	{
-//		(*it)->handleEvent(Event);
-//	}
+	//	for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
+	//	{
+	//		(*it)->handleEvent(Event);
+	//	}
 }
 
 void Game::render(sf::RenderTarget* screen_surface)
