@@ -35,6 +35,8 @@
 
 AsteroidGame::AsteroidGame(int window_width,int window_height)
 : Game(window_width,window_height)
+, score(0)
+, shipHealth(5)
 {
 	int asteroidCount = 15;
 	Entity* ship = new Ship();

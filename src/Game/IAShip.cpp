@@ -58,19 +58,19 @@ void IAShip::handleEvent(const sf::Event& event)
 {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		m_entity->body()->angle -= 0.02;
+		m_entity->body()->angle -= 0.04;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		m_entity->body()->angle += 0.02;
+		m_entity->body()->angle += 0.04;
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		m_entity->physics()->thrust(-0.2);
+		m_entity->physics()->thrust(-0.4);
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		m_entity->physics()->thrust(0.2);
+		m_entity->physics()->thrust(0.4);
 	}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
