@@ -37,6 +37,8 @@ public:
 	AsteroidGame(int window_width = 800,int window_height = 600 );
 	virtual ~AsteroidGame();
 
+	virtual void handleEvent(const sf::Event& Event) ;
+
 	void loose(Entity* entity);
 
 

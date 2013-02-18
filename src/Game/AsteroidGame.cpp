@@ -61,5 +61,16 @@ void AsteroidGame::loose(Entity* entity)
 }
 
 
+void AsteroidGame::handleEvent(const sf::Event& event)
+{
+	if(event.type == sf::Event::KeyPressed)
+	{
+		if(event.key.code == sf::Keyboard::R)
+		{
+			setNextScreen(new AsteroidGame(windowWidth(),windowHeight()));
+		}
+	}
+	Game::handleEvent(event);
+}
 
 
