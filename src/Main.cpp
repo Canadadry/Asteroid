@@ -18,6 +18,7 @@ Screen* currentScreen = 0;
 int main(int argc, char** argv)
 {
 
+	bool hasFocus = true;
 	srand(time(NULL));
 	printf("build time %s\n",__TIME__);
 
@@ -44,14 +45,28 @@ int main(int argc, char** argv)
 			{
 				window.close();
 			}
+			else if(event.type == sf::Event::GainedFocus)
+			{
+				hasFocus = true;
+			}
+			else if(event.type == sf::Event::LostFocus)
+			{
+				hasFocus = false;
+			}
 			else
 			{
-				currentScreen->handleEvent(event);
+				if(hasFocus)
+				{
+					currentScreen->handleEvent(event);
+				}
 			}
 		}
 		if(elapsedTimeMS >0)
 		{
-			currentScreen->update(elapsedTimeMS);
+			if(hasFocus)
+			{
+				currentScreen->update(elapsedTimeMS);
+			}
 		}
 
 		window.setActive(true);
