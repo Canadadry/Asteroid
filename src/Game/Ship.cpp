@@ -36,6 +36,7 @@
 #include <Game/Gun.h>
 #include <Game/EntityType.h>
 #include <Game/AsteroidGame.h>
+#include <Game/Bonus.h>
 
 #include <SFML/Graphics/ConvexShape.hpp>
 
@@ -46,6 +47,7 @@
 
 Ship::Ship()
 : m_shape(new sf::ConvexShape(3) )
+, m_bonus(0)
 {
 	setBody(new Body(this));
 	body()->x = 400;
@@ -70,6 +72,7 @@ Ship::Ship()
 
 	setHealth(new Health(this));
 	health()->hits = 5;
+	health()->invincibilityFrame = 1000;
 	health()->died.Connect(this,&Ship::onDied);
 
 	Weapon* weapon = 0;
@@ -100,6 +103,15 @@ void Ship::onDied()
 
 void Ship::update()
 {
+	if(m_bonus)
+	{
+		if(m_bonus->update())
+		{
+			delete m_bonus;
+			m_bonus = 0;
+		}
+	}
+
 	AsteroidGame* agame = (AsteroidGame*)game;
 	agame->shipHealth = health()->hits;
 
@@ -113,5 +125,18 @@ void Ship::update()
 		if(m_shape->getOutlineColor() != sf::Color::White)
 			m_shape->setOutlineColor(sf::Color::White);
 	}
+}
+
+void Ship::setBonus(Bonus* bonus)
+{
+	if(m_bonus)
+	{
+		delete m_bonus;
+	}
+	m_bonus = bonus;
+	health()->hit(-1);
+	// TODO : correct this ugly hack
+
+
 }
 

@@ -30,7 +30,9 @@
 #define ENDSCREEN_H_
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include <Engine/Screen.h>
+
 
 class EndScreen : public Screen
 {
@@ -45,6 +47,7 @@ public:
 protected:
 	sf::Text m_text;
 	sf::Font m_font;
+	sf::Clock m_clock;
 
 
 };

@@ -33,9 +33,11 @@
 #include <Engine/Body.h>
 
 
+class Bonus;
 namespace sf{
 	class ConvexShape;
 }
+
 
 class Ship :public Entity, public CollisionHandler
 {
@@ -46,9 +48,11 @@ public:
 
 	void onDied();
 	virtual void update();
+	void setBonus(Bonus* bonus);
 
 private:
     sf::ConvexShape* m_shape;
+    Bonus* m_bonus;
 };
 
 #endif /* SHIP_H_ */

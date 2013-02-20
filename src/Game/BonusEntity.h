@@ -1,7 +1,7 @@
 /*
- * EntityType.h
+ * BonusEntity.h
  *
- * Asteroid - Copyright (c) 17 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 20 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,24 +23,34 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 17 f思r. 2013
+ *  Created on: 20 f思r. 2013
  */
 
-#ifndef ENTITYTYPE_H_
-#define ENTITYTYPE_H_
+#ifndef BONUSENTITY_H_
+#define BONUSENTITY_H_
 
-namespace EntityType{
+#include <Engine/Entity.h>
+#include <Engine/Body.h>
+namespace sf{
+	class Shape;
+}
 
-enum EntityType
+
+class Bonus;
+class BonusEntity: public Entity, public CollisionHandler
 {
-	EntityShip     = 0,
-	EntityAsteroid    ,
-	EntityBullet      ,
-	EntityHUD         ,
-	EntityBonus
+public:
+	BonusEntity(Bonus* bonus);
+	virtual ~BonusEntity();
+
+	virtual bool HandleCollision(Body* body);
+	virtual void update();
+
+private:
+	sf::Shape* m_shape;
+	Bonus*     m_bonus;
+	int        m_age;
 
 };
 
-
-}
-#endif /* ENTITYTYPE_H_ */
+#endif /* BONUSENTITY_H_ */

@@ -1,7 +1,7 @@
 /*
- * EntityType.h
+ * Bonus.cpp
  *
- * Asteroid - Copyright (c) 17 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 20 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,24 +23,35 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 17 f思r. 2013
+ *  Created on: 20 f思r. 2013
  */
 
-#ifndef ENTITYTYPE_H_
-#define ENTITYTYPE_H_
+#include "Bonus.h"
 
-namespace EntityType{
 
-enum EntityType
+Bonus::Bonus(int duration_time,int type,int value)
+: m_clock()
+, m_duration_time(duration_time)
+, m_type(type)
+, m_value(value)
 {
-	EntityShip     = 0,
-	EntityAsteroid    ,
-	EntityBullet      ,
-	EntityHUD         ,
-	EntityBonus
-
-};
-
-
+	m_clock.restart();
 }
-#endif /* ENTITYTYPE_H_ */
+
+Bonus::~Bonus(){}
+
+bool Bonus::update()
+{
+	bool ret = false;
+	if(m_clock.getElapsedTime().asMilliseconds() > m_duration_time)
+	{
+		m_type =0;
+		m_value =0;
+		ret = true;
+	}
+	return ret;
+}
+
+int Bonus::type() {	return m_type; }
+int Bonus::value(){	return m_value; }
+

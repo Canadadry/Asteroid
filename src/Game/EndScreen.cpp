@@ -30,6 +30,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <Game/AsteroidGame.h>
 
+
 extern int window_width;
 extern int window_height;
 extern std::string path;
@@ -37,6 +38,9 @@ extern std::string path;
 
 EndScreen::EndScreen(int score)
 :Screen()
+, m_text()
+, m_font()
+, m_clock()
 {
 	m_font.loadFromFile(path+"/visitor1.ttf");
 	m_text.setColor(sf::Color::White);
@@ -48,6 +52,7 @@ EndScreen::EndScreen(int score)
 	sprintf(text,"score : %04d",score);
 	m_text.setString(text);
 
+	m_clock.restart();
 
 }
 
@@ -67,8 +72,11 @@ void EndScreen::update(int elapsedTimeMS)
 
 void EndScreen::handleEvent(const sf::Event& event)
 {
-	if(event.type == sf::Event::KeyPressed)
+	if(m_clock.getElapsedTime().asMilliseconds() >  3000)
 	{
-		setNextScreen(new AsteroidGame(window_width,window_height));
+		if(event.type == sf::Event::KeyPressed)
+		{
+			setNextScreen(new AsteroidGame(window_width,window_height));
+		}
 	}
 }

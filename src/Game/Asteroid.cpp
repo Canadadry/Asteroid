@@ -32,6 +32,8 @@
 #include <Engine/View.h>
 #include <Engine/Health.h>
 
+#include <Game/Bonus.h>
+#include <Game/BonusEntity.h>
 #include <Game/EntityType.h>
 
 #include <SFML/Graphics/CircleShape.hpp>
@@ -128,13 +130,27 @@ void Asteroid::onHurt()
 		return;
 	}
 
-	Asteroid* asteroid = new Asteroid();
-	asteroid->body()->x = body()->x ;
-	asteroid->body()->y = body()->y ;
-	asteroid->body()->radius = body()->radius;
-	asteroid->body()->angle = body()->radius;
+	if( (body()->radius*0.75 < 4) && (frand_a_b(0.0,1.0) > 0.8))
+	{
+		BonusEntity* bonus = new BonusEntity(0);
+		bonus->body()->x = body()->x ;
+		bonus->body()->y = body()->y ;
+		bonus->body()->radius = body()->radius;
+		bonus->body()->angle = body()->radius;
+		bonus->physics()->thrust(1.0);
 
-	entityCreated(asteroid);
+		entityCreated(bonus);
+	}
+	else
+	{
+		Asteroid* asteroid = new Asteroid();
+		asteroid->body()->x = body()->x ;
+		asteroid->body()->y = body()->y ;
+		asteroid->body()->radius = body()->radius;
+		asteroid->body()->angle = body()->radius;
+
+		entityCreated(asteroid);
+	}
 
 }
 

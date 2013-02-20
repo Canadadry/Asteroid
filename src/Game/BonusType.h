@@ -1,7 +1,7 @@
 /*
- * EntityType.h
+ * BonusType.h
  *
- * Asteroid - Copyright (c) 17 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 20 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,24 +23,17 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 17 f思r. 2013
+ *  Created on: 20 f思r. 2013
  */
 
-#ifndef ENTITYTYPE_H_
-#define ENTITYTYPE_H_
+#ifndef BONUSTYPE_H_
+#define BONUSTYPE_H_
 
-namespace EntityType{
-
-enum EntityType
-{
-	EntityShip     = 0,
-	EntityAsteroid    ,
-	EntityBullet      ,
-	EntityHUD         ,
-	EntityBonus
-
-};
-
-
+namespace BonusType {
+	enum BonusType{
+		InvalidBonus = 0,
+		HealthBonus
+	};
 }
-#endif /* ENTITYTYPE_H_ */
+
+#endif /* BONUSTYPE_H_ */

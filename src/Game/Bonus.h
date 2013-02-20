@@ -1,7 +1,7 @@
 /*
- * EntityType.h
+ * Bonus.h
  *
- * Asteroid - Copyright (c) 17 f思r. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 20 f思r. 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,24 +23,33 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 17 f思r. 2013
+ *  Created on: 20 f思r. 2013
  */
 
-#ifndef ENTITYTYPE_H_
-#define ENTITYTYPE_H_
+#ifndef BONUS_H_
+#define BONUS_H_
 
-namespace EntityType{
+#include  <Signal/Signal.h>
+#include <SFML/System/Clock.hpp>
 
-enum EntityType
+class Bonus
 {
-	EntityShip     = 0,
-	EntityAsteroid    ,
-	EntityBullet      ,
-	EntityHUD         ,
-	EntityBonus
+public:
+	Bonus(int duration_time,int type,int value = 0);
+	virtual ~Bonus();
+
+
+	// return true if has expired
+	virtual bool update();
+	int type();
+	int value();
+
+private:
+	sf::Clock m_clock;
+	int m_duration_time;
+	int m_type;
+	int m_value;
 
 };
 
-
-}
-#endif /* ENTITYTYPE_H_ */
+#endif /* BONUS_H_ */

@@ -13,6 +13,8 @@ int window_height = 600;
 
 std::string path = "img";
 
+Screen* currentScreen = 0;
+
 int main(int argc, char** argv)
 {
 
@@ -30,7 +32,7 @@ int main(int argc, char** argv)
 	sf::Clock clock;
 
 	AsteroidGame game(800,600);
-	Screen* currentScreen = &game;
+	currentScreen = &game;
 
 	int elapsedTimeMS = 0;
 	while (window.isOpen() && currentScreen != 0)
