@@ -58,7 +58,7 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 
 	for(int i = 0; i<asteroidCount;i++ )
 	{
-		// addEntity(new Asteroid());
+		 addEntity(new Asteroid());
 	}
 	addEntity(new HUD());
 }
