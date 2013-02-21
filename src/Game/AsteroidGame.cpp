@@ -29,9 +29,13 @@
 #include "AsteroidGame.h"
 #include <Game/Ship.h>
 #include <Game/IAShip.h>
+#include <Game/MousePad.h>
 #include <Game/Asteroid.h>
 #include <Game/HUD.h>
 #include <Game/EndScreen.h>
+#include <INIReader/INIReader.h>
+
+extern INIReader* appConf;
 
 AsteroidGame::AsteroidGame(int window_width,int window_height)
 : Game(window_width,window_height)
@@ -40,13 +44,21 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 {
 	int asteroidCount = 15;
 	Entity* ship = new Ship();
-	ship->setGamepad(new IAShip(ship));
+
+	if(appConf->GetBoolean("KEY","useMouse",false))
+	{
+		ship->setGamepad(new MousePad(ship));
+	}
+	else
+	{
+		ship->setGamepad(new IAShip(ship));
+	}
 	addEntity(ship);
 	ship->destroyed.Connect(this,&AsteroidGame::loose);
 
 	for(int i = 0; i<asteroidCount;i++ )
 	{
-		addEntity(new Asteroid());
+		// addEntity(new Asteroid());
 	}
 	addEntity(new HUD());
 }

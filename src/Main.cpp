@@ -7,6 +7,7 @@
 #include <Engine/Screen.h>
 #include <Game/AsteroidGame.h>
 #include <cmath>
+#include <INIReader/INIReader.h>
 
 int window_width = 800;
 int window_height = 600;
@@ -14,6 +15,8 @@ int window_height = 600;
 std::string path ;
 
 Screen* currentScreen = 0;
+sf::RenderWindow* main_window = 0;
+INIReader* appConf;
 
 int main(int argc, char** argv)
 {
@@ -27,7 +30,10 @@ int main(int argc, char** argv)
 	path = path.substr(0,path.rfind("/"));
 	path += "/Resources/";
 
+	appConf = new INIReader(path+"settings.ini");
+
 	sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Asteroid",sf::Style::Titlebar | sf::Style::Close);
+	main_window = &window;
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 	sf::Clock clock;
