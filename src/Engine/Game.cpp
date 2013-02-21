@@ -141,10 +141,10 @@ void Game::destroyedEntity(Entity* entity)
 
 void Game::handleEvent(const sf::Event& Event)
 {
-	//	for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
-	//	{
-	//		(*it)->handleEvent(Event);
-	//	}
+		for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
+		{
+			(*it)->handleEvent(Event);
+		}
 }
 
 void Game::render(sf::RenderTarget* screen_surface)
@@ -157,13 +157,11 @@ void Game::render(sf::RenderTarget* screen_surface)
 	}
 }
 
-
 void Game::update(int elapsedTimeMS)
 {
-	sf::Event Event;
 	for(GamePad_it it = m_gamepads.begin(); it != m_gamepads.end();it++)
 	{
-		(*it)->handleEvent(Event);
+		(*it)->update();
 	}
 	for(Physic_it it = m_physics.begin(); it != m_physics.end();it++)
 	{
