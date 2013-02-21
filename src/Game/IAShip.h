@@ -38,6 +38,7 @@ public:
 	virtual ~IAShip();
 
 	virtual void handleEvent(const sf::Event& Event);
+	virtual void update();
 
 private:
 

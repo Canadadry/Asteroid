@@ -42,7 +42,7 @@ EndScreen::EndScreen(int score)
 , m_font()
 , m_clock()
 {
-	m_font.loadFromFile(path+"/visitor1.ttf");
+	m_font.loadFromFile(path+"visitor1.ttf");
 	m_text.setColor(sf::Color::White);
 	m_text.setCharacterSize(90);
 	m_text.setFont(m_font);

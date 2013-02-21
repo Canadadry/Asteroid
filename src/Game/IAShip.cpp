@@ -56,6 +56,22 @@ IAShip::~IAShip()
 
 void IAShip::handleEvent(const sf::Event& event)
 {
+
+	//	if(m_turnDirection<0.1)
+	//	{
+	//		if (frand_a_b(0.0,1.0) < 0.2) m_turnDirection = frand_a_b(-PI/3,PI/3);
+	//	}
+	//	else{
+	//		m_turnDirection -= 0.2;
+	//		m_entity->body()->angle += 0.2;
+	//	}
+	//	m_entity->physics()->thrust(frand_a_b(0.0,0.5));
+
+}
+
+
+void IAShip::update()
+{
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		m_entity->body()->angle -= 0.04;
@@ -78,17 +94,4 @@ void IAShip::handleEvent(const sf::Event& event)
 		m_entity->weapon()->fire();
 	}
 
-	//	if(m_turnDirection<0.1)
-	//	{
-	//		if (frand_a_b(0.0,1.0) < 0.2) m_turnDirection = frand_a_b(-PI/3,PI/3);
-	//	}
-	//	else{
-	//		m_turnDirection -= 0.2;
-	//		m_entity->body()->angle += 0.2;
-	//	}
-	//	m_entity->physics()->thrust(frand_a_b(0.0,0.5));
-
-
-
 }
-

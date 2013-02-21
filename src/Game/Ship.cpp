@@ -35,6 +35,7 @@
 
 #include <Game/Gun.h>
 #include <Game/EntityType.h>
+#include <Game/BonusType.h>
 #include <Game/AsteroidGame.h>
 #include <Game/Bonus.h>
 
@@ -134,7 +135,18 @@ void Ship::setBonus(Bonus* bonus)
 		delete m_bonus;
 	}
 	m_bonus = bonus;
-	health()->hit(-1);
+
+	switch(m_bonus->type())
+	{
+		case BonusType::HealthBonus   : health()->hit(-1);break;
+		case BonusType::RayBonus      : ((Gun*)weapon())->rayCount++;break;
+		case BonusType::PiercingBonus : ((Gun*)weapon())->piercing = true;break;
+		case BonusType::LenghtBonus   : ((Gun*)weapon())->bulletLifeTime += 5;break;
+		default: break;
+
+
+	}
+
 	// TODO : correct this ugly hack
 
 

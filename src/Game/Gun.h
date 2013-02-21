@@ -43,9 +43,15 @@ public:
 
 	void onBulletDied(Entity* bullet);
 	int cadence;
+	int rayCount;
+	bool piercing;
+	int bulletLifeTime;
 	
-private:
+protected:
+	void createBullet(float x,float y,float angle,float speed,float dist,float offsets = 0.f,bool piercingBullet=false);
+
 	sf::Clock m_clock;
+
 
 };
 

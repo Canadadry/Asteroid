@@ -42,6 +42,8 @@ public:
 	virtual ~GamePad();
 
 	virtual void handleEvent(const sf::Event& Event) =0;
+	virtual void update() =0;
+
 
 protected:
 	Entity* m_entity;

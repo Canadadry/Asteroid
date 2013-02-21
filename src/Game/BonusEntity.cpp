@@ -34,7 +34,9 @@
 
 #include "EntityType.h"
 #include "BonusEntity.h"
+#include "Bonus.h"
 #include "Ship.h"
+#include <Game/BonusType.h>
 
 BonusEntity::BonusEntity(Bonus* bonus)
 : Entity()
@@ -54,8 +56,16 @@ BonusEntity::BonusEntity(Bonus* bonus)
 	view()->drawable = m_shape;
 	m_shape->setFillColor(sf::Color::Transparent);
 	m_shape->setOutlineThickness(1.0f);
-	m_shape->setOutlineColor(sf::Color::Red);
+	switch(m_bonus->type())
+	{
 
+		case BonusType::HealthBonus   : m_shape->setOutlineColor(sf::Color::Red); break;
+		case BonusType::RayBonus      : m_shape->setOutlineColor(sf::Color::Blue); break;
+		case BonusType::PiercingBonus : m_shape->setOutlineColor(sf::Color::Green); break;
+		case BonusType::LenghtBonus   : m_shape->setOutlineColor(sf::Color::Magenta); break;
+
+		default: break;
+	}
 }
 
 BonusEntity::~BonusEntity()

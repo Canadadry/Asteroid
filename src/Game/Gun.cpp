@@ -37,6 +37,9 @@
 Gun::Gun(Entity* entity)
 : Weapon(entity)
 , cadence(100)
+, rayCount(1)
+, piercing(false)
+, bulletLifeTime(25)
 {
 	m_clock.restart();
 	ammo = 5;
@@ -46,23 +49,49 @@ Gun::~Gun()
 {
 }
 
+#define PI 3.1415926535
+
 void Gun::fire()
 {
 	if( ammo <= 0 ) return;
 	if(m_clock.getElapsedTime().asMilliseconds() < cadence) return;
 	m_clock.restart();
 
-	Bullet* bullet = new Bullet();
-	bullet->body()->x = m_entity->body()->x;
-	bullet->body()->y = m_entity->body()->y;
-	bullet->body()->x -= sin(-m_entity->body()->angle) * (m_entity->body()->radius + bullet->body()->radius + 1);
-	bullet->body()->y -= cos(-m_entity->body()->angle) * (m_entity->body()->radius + bullet->body()->radius + 1);
-	bullet->body()->angle = m_entity->body()->angle;
-	bullet->physics()->thrust(-10);
+	const float offset = 6;
+	Body* b = m_entity->body();
+	createBullet(b->x,b->y,b->angle , -10,b->radius*2+1,0.0f,piercing);
+
+	for(int i = 1; i<rayCount;i++)
+	{
+		createBullet(b->x,b->y,b->angle , -10,b->radius*2+1,  offset*i,piercing);
+		createBullet(b->x,b->y,b->angle , -10,b->radius*2+1, -offset*i,piercing);
+	}
+
+//	createBullet(b->x,b->y,b->angle + PI/2  ,-10,b->radius*2+1);
+//	createBullet(b->x,b->y,b->angle + PI    ,-10,b->radius*2+1);
+//	createBullet(b->x,b->y,b->angle +3*PI/2 ,-10,b->radius*2+1);
+
+	Weapon::fire();
+}
+
+void Gun::createBullet(float x,float y,float angle,float speed,float dist,float offset,bool piercingBullet)
+{
+	Bullet* bullet = new Bullet(bulletLifeTime,piercingBullet);
+	bullet->body()->x = x;
+	bullet->body()->y = y;
+	bullet->body()->x -= sin(-angle) * dist;
+	bullet->body()->y -= cos(-angle) * dist;
+
+	bullet->body()->x -= sin(-angle + PI/2) * offset;
+	bullet->body()->y -= cos(-angle + PI/2) * offset;
+
+
+	bullet->body()->angle = angle;
+	bullet->physics()->thrust(speed);
 	bullet->destroyed.Connect(this,&Gun::onBulletDied);
 	m_entity->entityCreated(bullet);
 
-	Weapon::fire();
+
 }
 
 void Gun::onBulletDied(Entity* bullet)

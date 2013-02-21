@@ -38,7 +38,7 @@ HUD::HUD()
 , m_text()
 {
 
-	m_font.loadFromFile(path+"/visitor1.ttf");
+	m_font.loadFromFile(path+"visitor1.ttf");
 	setView(new View(this));
 	view()->drawable=&m_text;
 	m_text.setColor(sf::Color::White);

@@ -39,7 +39,7 @@ namespace sf{
 class Bullet : public Entity, public CollisionHandler
 {
 public:
-	Bullet();
+	Bullet(int lifeTime = 25,bool piercingBullet=false);
 	virtual ~Bullet();
 	virtual bool HandleCollision(Body* body);
 
@@ -48,6 +48,8 @@ public:
 private:
 	sf::Shape* m_shape;
 	int m_age;
+	int m_lifeTime;
+	bool m_isPiercing;
 
 };
 

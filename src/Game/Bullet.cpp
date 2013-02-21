@@ -39,10 +39,12 @@
 #include <Game/AsteroidGame.h>
 
 
-Bullet::Bullet()
+Bullet::Bullet(int lifeTime,bool piercing)
 :Entity()
 , m_shape(new sf::CircleShape(2))
 , m_age(0)
+, m_lifeTime(lifeTime)
+, m_isPiercing(piercing)
 {
 	setBody(new Body(this));
 	body()->radius = 2;
@@ -67,18 +69,20 @@ Bullet::~Bullet()
 
 bool Bullet::HandleCollision(Body* body)
 {
-	bool ret = true;
+	bool ret = false;
 	switch(body->type)
 	{
 
+
+		case EntityType::EntityShip    : break;
 		case EntityType::EntityBullet  : break;
 		case EntityType::EntityAsteroid: {
 			AsteroidGame* agame = (AsteroidGame*)game;
 			agame->score += 10;
+		body->entity()->health()->hit(1);break;
 		}
-		case EntityType::EntityShip    : body->entity()->health()->hit(1);break;
 	}
-	destroyed(this);
+	if(!m_isPiercing) destroyed(this);
 	return ret;
 }
 
@@ -87,7 +91,7 @@ void Bullet::update()
 {
 	m_age++;
 //	if (m_age > 20) view()->alpha -= 0.2;
-	if (m_age > 25)
+	if (m_age > m_lifeTime)
 	{
 		destroyed(this);
 	}

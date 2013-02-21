@@ -37,6 +37,7 @@
 #include <Game/EntityType.h>
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <cmath>
 
 extern double frand_a_b(double a, double b);
 
@@ -130,16 +131,19 @@ void Asteroid::onHurt()
 		return;
 	}
 
-	if( (body()->radius*0.75 < 4) && (frand_a_b(0.0,1.0) > 0.8))
+	if( (body()->radius*0.75 < 4) && (frand_a_b(0.0,1.0) > 0.7))
 	{
-		BonusEntity* bonus = new BonusEntity(0);
-		bonus->body()->x = body()->x ;
-		bonus->body()->y = body()->y ;
-		bonus->body()->radius = body()->radius;
-		bonus->body()->angle = body()->radius;
-		bonus->physics()->thrust(1.0);
+		int bonus_type = floor(frand_a_b(0.0,3.0)+0.5) + 1;
+		//printf("will create bonus of type %d\n",bonus_type);
+		Bonus* bonus = new Bonus(0,bonus_type,0);
+		BonusEntity* bonusEntity = new BonusEntity(bonus);
+		bonusEntity->body()->x = body()->x ;
+		bonusEntity->body()->y = body()->y ;
+		bonusEntity->body()->radius = body()->radius;
+		bonusEntity->body()->angle = body()->radius;
+		bonusEntity->physics()->thrust(1.0);
 
-		entityCreated(bonus);
+		entityCreated(bonusEntity);
 	}
 	else
 	{

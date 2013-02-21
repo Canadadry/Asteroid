@@ -32,7 +32,10 @@
 namespace BonusType {
 	enum BonusType{
 		InvalidBonus = 0,
-		HealthBonus
+		HealthBonus     ,
+		RayBonus        ,
+		PiercingBonus   ,
+		LenghtBonus
 	};
 }
 

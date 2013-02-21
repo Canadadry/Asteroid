@@ -11,7 +11,7 @@
 int window_width = 800;
 int window_height = 600;
 
-std::string path = "img";
+std::string path ;
 
 Screen* currentScreen = 0;
 
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	path = argv[0];
 	path = path.substr(0,path.rfind("/"));
 	path = path.substr(0,path.rfind("/"));
-	path += "/Resources";
+	path += "/Resources/";
 
 	sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Asteroid",sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
