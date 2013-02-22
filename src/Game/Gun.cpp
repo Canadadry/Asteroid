@@ -57,7 +57,7 @@ void Gun::fire()
 	if(m_clock.getElapsedTime().asMilliseconds() < cadence) return;
 	m_clock.restart();
 
-	const float offset = 6;
+	const float offset = 10;
 	Body* b = m_entity->body();
 	createBullet(b->x,b->y,b->angle , -10,b->radius*2+1,0.0f,piercing);
 

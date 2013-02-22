@@ -32,9 +32,9 @@
 #include <Engine/Entity.h>
 #include <Engine/Body.h>
 namespace sf{
-	class Shape;
+	class Sprite;
+	class Texture;
 }
-
 
 class Bonus;
 class BonusEntity: public Entity, public CollisionHandler
@@ -47,7 +47,8 @@ public:
 	virtual void update();
 
 private:
-	sf::Shape* m_shape;
+    sf::Sprite* m_shape;
+    sf::Texture* m_texture;
 	Bonus*     m_bonus;
 	int        m_age;
 

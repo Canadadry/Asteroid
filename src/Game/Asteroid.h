@@ -33,7 +33,8 @@
 #include <Engine/Body.h>
 
 namespace sf{
-	class CircleShape;
+	class Sprite;
+	class Texture;
 }
 
 
@@ -50,7 +51,8 @@ public:
     void onHurt();
 
 private:
-    sf::CircleShape* m_shape;
+    sf::Sprite* m_shape;
+    sf::Texture* m_texture;
 
 };
 

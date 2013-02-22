@@ -42,7 +42,7 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 , score(0)
 , shipHealth(5)
 {
-	int asteroidCount = 15;
+	int asteroidCount = 30;
 	Entity* ship = new Ship();
 
 	if(appConf->GetBoolean("KEY","useMouse",false))

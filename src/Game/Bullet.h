@@ -33,9 +33,9 @@
 #include <Engine/Body.h>
 
 namespace sf{
-	class Shape;
+	class Sprite;
+	class Texture;
 }
-
 class Bullet : public Entity, public CollisionHandler
 {
 public:
@@ -46,7 +46,8 @@ public:
 	virtual void update();
 
 private:
-	sf::Shape* m_shape;
+    sf::Sprite* m_shape;
+    sf::Texture* m_texture;
 	int m_age;
 	int m_lifeTime;
 	bool m_isPiercing;

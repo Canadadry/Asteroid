@@ -26,7 +26,8 @@
  *  Created on: 20 févr. 2013
  */
 
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include <Engine/Body.h>
 #include <Engine/Physics.h>
@@ -38,12 +39,19 @@
 #include "Ship.h"
 #include <Game/BonusType.h>
 
+
+extern std::string path;
+#define PI 3.14151
+
 BonusEntity::BonusEntity(Bonus* bonus)
 : Entity()
-, m_shape(new sf::CircleShape(5))
+, m_shape(new sf::Sprite)
+, m_texture(new sf::Texture)
 , m_bonus(bonus)
 , m_age(0)
 {
+
+	printf("new bonus\n");
 	setBody(new Body(this));
 	body()->radius = 5;
 	body()->collisionHandler = this;
@@ -54,18 +62,28 @@ BonusEntity::BonusEntity(Bonus* bonus)
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-	m_shape->setFillColor(sf::Color::Transparent);
-	m_shape->setOutlineThickness(1.0f);
+	//m_shape->setTexture(*m_texture);
+//	m_shape->setFillColor(sf::Color::Transparent);
+//	m_shape->setOutlineThickness(1.0f);
 	switch(m_bonus->type())
 	{
+		case BonusType::HealthBonus   : m_texture->loadFromFile(path+"health.png");break;
+		case BonusType::RayBonus      : m_texture->loadFromFile(path+"powerup.png");break;
+		case BonusType::PiercingBonus : m_texture->loadFromFile(path+"piercingBullet.png");break;
+		//case BonusType::LenghtBonus   : m_texture->loadFromFile(path+"health.png");break;
+		//TODO : make lenghtBonus image
 
-		case BonusType::HealthBonus   : m_shape->setOutlineColor(sf::Color::Red); break;
-		case BonusType::RayBonus      : m_shape->setOutlineColor(sf::Color::Blue); break;
-		case BonusType::PiercingBonus : m_shape->setOutlineColor(sf::Color::Green); break;
-		case BonusType::LenghtBonus   : m_shape->setOutlineColor(sf::Color::Magenta); break;
+//		case BonusType::HealthBonus   : m_shape->setOutlineColor(sf::Color::Red); break;
+//		case BonusType::RayBonus      : m_shape->setOutlineColor(sf::Color::Blue); break;
+//		case BonusType::PiercingBonus : m_shape->setOutlineColor(sf::Color::Green); break;
+//		case BonusType::LenghtBonus   : m_shape->setOutlineColor(sf::Color::Magenta); break;
 
 		default: break;
 	}
+
+	m_shape->setTexture(*m_texture);
+	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
+
 }
 
 BonusEntity::~BonusEntity()
@@ -96,4 +114,5 @@ void BonusEntity::update()
 	{
 		destroyed(this);
 	}
+	m_shape->setRotation(-body()->angle/PI*180.0 );
 }

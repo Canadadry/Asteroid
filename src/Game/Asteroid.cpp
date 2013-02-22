@@ -36,15 +36,20 @@
 #include <Game/BonusEntity.h>
 #include <Game/EntityType.h>
 
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+
 #include <cmath>
 
+
+extern std::string path;
 extern double frand_a_b(double a, double b);
 
 
 Asteroid::Asteroid()
 : Entity()
-, m_shape(new sf::CircleShape(20) )
+, m_shape(new sf::Sprite )
+, m_texture(new sf::Texture)
 {
 	setBody(new Body(this));
 	body()->angle = frand_a_b(0.0,360.0);
@@ -61,10 +66,16 @@ Asteroid::Asteroid()
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-	m_shape->setFillColor(sf::Color::Transparent);
-	m_shape->setOutlineThickness(1.0f);
-	m_shape->setOutlineColor(sf::Color::White);
-	m_shape->setOrigin(body()->radius,body()->radius);
+//	m_shape->setFillColor(sf::Color::Transparent);
+//	m_shape->setOutlineThickness(1.0f);
+//	m_shape->setOutlineColor(sf::Color::White);
+//	m_shape->setOrigin(body()->radius,body()->radius);
+	m_texture->loadFromFile(path+"rock.png");
+	m_shape->setTexture(*m_texture);
+	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
+	float factor = body()->radius/(float)m_texture->getSize().x*2.0;
+	m_shape->scale(factor,factor);
+
 
 	setHealth(new Health(this));
 	health()->hits = 3;
@@ -102,17 +113,17 @@ bool Asteroid::HandleCollision(Body* body)
 
 void Asteroid::update()
 {
-	m_shape->setRadius(body()->radius);
-	if(health()->invincible())
-	{
-		if(m_shape->getOutlineColor() != sf::Color::Yellow)
-			m_shape->setOutlineColor(sf::Color::Yellow);
-	}
-	else
-	{
-		if(m_shape->getOutlineColor() != sf::Color::White)
-			m_shape->setOutlineColor(sf::Color::White);
-	}
+//	m_shape->setRadius(body()->radius);
+//	if(health()->invincible())
+//	{
+//		if(m_shape->getOutlineColor() != sf::Color::Yellow)
+//			m_shape->setOutlineColor(sf::Color::Yellow);
+//	}
+//	else
+//	{
+//		if(m_shape->getOutlineColor() != sf::Color::White)
+//			m_shape->setOutlineColor(sf::Color::White);
+//	}
 }
 
 void Asteroid::onHurt()
@@ -121,17 +132,19 @@ void Asteroid::onHurt()
 	body()->radius*=0.75;
 	m_shape->setRotation(body()->radius);
 	m_shape->setOrigin(body()->radius,body()->radius);
-	m_shape->setRadius(body()->radius);
+	m_shape->scale(0.75,0.75);
+
+//	m_shape->setRadius(body()->radius);
 	physics()->velocityX *= -1 ;
 	physics()->velocityY *= -1 ;
 
-	if(body()->radius < 4)
+	if(body()->radius < 10)
 	{
 		destroyed(this);
 		return;
 	}
 
-	if( (body()->radius*0.75 < 4) && (frand_a_b(0.0,1.0) > 0.7))
+	if( (body()->radius*0.75 < 10) && (frand_a_b(0.0,1.0) > 0.7))
 	{
 		int bonus_type = floor(frand_a_b(0.0,3.0)+0.5) + 1;
 		//printf("will create bonus of type %d\n",bonus_type);
@@ -152,6 +165,8 @@ void Asteroid::onHurt()
 		asteroid->body()->y = body()->y ;
 		asteroid->body()->radius = body()->radius;
 		asteroid->body()->angle = body()->radius;
+		float factor = body()->radius/(float)m_texture->getSize().x*2.0;
+		m_shape->setScale(factor,factor);
 
 		entityCreated(asteroid);
 	}

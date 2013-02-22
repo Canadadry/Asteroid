@@ -27,7 +27,8 @@
  */
 
 #include "Bullet.h"
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include <Engine/Body.h>
 #include <Engine/Physics.h>
@@ -38,16 +39,17 @@
 #include <Game/EntityType.h>
 #include <Game/AsteroidGame.h>
 
+extern std::string path;
 
 Bullet::Bullet(int lifeTime,bool piercing)
 :Entity()
-, m_shape(new sf::CircleShape(2))
-, m_age(0)
+, m_shape(new sf::Sprite )
+, m_texture(new sf::Texture), m_age(0)
 , m_lifeTime(lifeTime)
 , m_isPiercing(piercing)
 {
 	setBody(new Body(this));
-	body()->radius = 2;
+	body()->radius = 4;
 	body()->collisionHandler = this;
 	body()->type = EntityType::EntityBullet;
 
@@ -56,6 +58,10 @@ Bullet::Bullet(int lifeTime,bool piercing)
 
 	setView(new View(this));
 	view()->drawable = m_shape;
+	m_texture->loadFromFile(path+"bullet.png");
+	m_shape->setTexture(*m_texture);
+	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
+
 
 }
 

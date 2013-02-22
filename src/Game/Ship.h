@@ -35,7 +35,8 @@
 
 class Bonus;
 namespace sf{
-	class ConvexShape;
+	class Sprite;
+	class Texture;
 }
 
 
@@ -51,7 +52,8 @@ public:
 	void setBonus(Bonus* bonus);
 
 private:
-    sf::ConvexShape* m_shape;
+    sf::Sprite* m_shape;
+    sf::Texture* m_texture;
     Bonus* m_bonus;
 };
 

@@ -39,15 +39,19 @@
 #include <Game/AsteroidGame.h>
 #include <Game/Bonus.h>
 
-#include <SFML/Graphics/ConvexShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include <cmath>
 
 #define PI 3.14151
 
+extern std::string path;
 
 Ship::Ship()
-: m_shape(new sf::ConvexShape(3) )
+: Entity()
+, m_shape(new sf::Sprite )
+, m_texture(new sf::Texture)
 , m_bonus(0)
 {
 	setBody(new Body(this));
@@ -63,13 +67,15 @@ Ship::Ship()
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-	m_shape->setPoint(0,sf::Vector2f( 0.0 ,-10.0));
-	m_shape->setPoint(1,sf::Vector2f( 5.0 , 0.0));
-	m_shape->setPoint(2,sf::Vector2f(-5.0 , 0.0));
-	m_shape->setFillColor(sf::Color::Transparent);
-	m_shape->setOutlineThickness(1.0f);
-	m_shape->setOutlineColor(sf::Color::White);
-
+//	m_shape->setPoint(0,sf::Vector2f( 0.0 ,-10.0));
+//	m_shape->setPoint(1,sf::Vector2f( 5.0 , 0.0));
+//	m_shape->setPoint(2,sf::Vector2f(-5.0 , 0.0));
+//	m_shape->setFillColor(sf::Color::Transparent);
+//	m_shape->setOutlineThickness(1.0f);
+//	m_shape->setOutlineColor(sf::Color::White);
+	m_texture->loadFromFile(path+"ship.png");
+	m_shape->setTexture(*m_texture);
+	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
 
 	setHealth(new Health(this));
 	health()->hits = 5;
@@ -118,13 +124,15 @@ void Ship::update()
 
 	if(health()->invincible())
 	{
-		if(m_shape->getOutlineColor() != sf::Color::Yellow)
-			m_shape->setOutlineColor(sf::Color::Yellow);
+		m_shape->setColor(sf::Color(255,255,255,128));
+//		if(m_shape->getOutlineColor() != sf::Color::Yellow)
+//			m_shape->setOutlineColor(sf::Color::Yellow);
 	}
 	else
 	{
-		if(m_shape->getOutlineColor() != sf::Color::White)
-			m_shape->setOutlineColor(sf::Color::White);
+		m_shape->setColor(sf::Color(255,255,255,255));
+//		if(m_shape->getOutlineColor() != sf::Color::White)
+//			m_shape->setOutlineColor(sf::Color::White);
 	}
 }
 
