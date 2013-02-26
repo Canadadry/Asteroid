@@ -30,12 +30,14 @@
 #define PHYSICS_H_
 class Entity;
 class World;
+class Body;
 class Physics
 {
 public:
 	Physics(Entity* entity);
 	virtual ~Physics();
 
+	void  setAttractionPoint(Body* attractionPoint, float attractionPower);
 	void  update(World& world);
 	void  thrust(float power);
 
@@ -45,6 +47,8 @@ public:
 
 private:
 	Entity* m_entity;
+	Body*   m_attractionPoint;
+	float   m_attractionPower;
 };
 
 #endif /* PHYSICS_H_ */

@@ -30,6 +30,7 @@
 #define ASTEROIDGAME_H_
 
 #include <Engine/Game.h>
+class Entity;
 
 class AsteroidGame : public Game
 {
@@ -44,6 +45,7 @@ public:
 
 	int score;
 	int shipHealth;
+	Entity* ship;
 };
 
 #endif /* ASTEROIDGAME_H_ */

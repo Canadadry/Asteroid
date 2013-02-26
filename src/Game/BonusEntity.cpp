@@ -38,8 +38,9 @@
 #include "Bonus.h"
 #include "Ship.h"
 #include <Game/BonusType.h>
+#include <Game/AsteroidGame.h>
 
-
+extern Screen* currentScreen ;
 extern std::string path;
 #define PI 3.14151
 
@@ -59,6 +60,9 @@ BonusEntity::BonusEntity(Bonus* bonus)
 
 	setPhysics(new Physics(this));
 	physics()->drag = 1.0;
+
+	Entity* ship = ((AsteroidGame*)currentScreen)->ship;
+	physics()->setAttractionPoint(ship->body(),-0.02);
 
 	setView(new View(this));
 	view()->drawable = m_shape;
