@@ -1,7 +1,7 @@
 /*
- * Physics.h
+ * Force.h
  *
- * Asteroid - Copyright (c) 12 févr. 2013 - Jerome Mourey
+ * Asteroid - Copyright (c) 3 mars 2013 - Jerome Mourey
  *
  * This software is provided 'as-is', without any express or
  * implied warranty. In no event will the authors be held
@@ -23,38 +23,50 @@
  * 3. This notice may not be removed or altered from any
  *    source distribution.
  *
- *  Created on: 12 févr. 2013
+ *  Created on: 3 mars 2013
  */
 
-#ifndef PHYSICS_H_
-#define PHYSICS_H_
-
-#include <list>
+#ifndef FORCE_H_
+#define FORCE_H_
 
 class Entity;
-class World;
 class Body;
-class Force;
-class Friction;
 
-class Physics
+class Force
 {
 public:
-	Physics(Entity* entity);
-	virtual ~Physics();
-
-	std::list<Force* > forces;
-
-	virtual void  update(World& world);
-	void  thrust(float power);
-
-	float   drag;
-	float   velocityX;
-	float   velocityY;
-
-private:
-	Entity* m_entity;
-	Friction* m_friction;
+	Force();
+	virtual ~Force();
+	virtual void affectEntity(Entity* entity) = 0;
 };
 
-#endif /* PHYSICS_H_ */
+//classical Forces :
+
+class Friction : public Force
+{
+public:
+	Friction();
+	virtual ~Friction();
+	virtual void affectEntity(Entity* entity);
+
+	double drag;
+};
+
+
+class Attraction : public Force
+{
+public:
+	Attraction();
+	virtual ~Attraction();
+	virtual void affectEntity(Entity* entity);
+
+	Body* origin;
+	double power;
+
+};
+
+
+
+
+
+#endif /* FORCE_H_ */

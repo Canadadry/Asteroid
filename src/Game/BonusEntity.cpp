@@ -32,6 +32,8 @@
 #include <Engine/Body.h>
 #include <Engine/Physics.h>
 #include <Engine/View.h>
+#include <Engine/Force.h>
+
 
 #include "EntityType.h"
 #include "BonusEntity.h"
@@ -44,6 +46,9 @@ extern Screen* currentScreen ;
 extern std::string path;
 #define PI 3.14151
 
+
+Attraction* BonusEntity::m_shipAttraction = 0;
+
 BonusEntity::BonusEntity(Bonus* bonus)
 : Entity()
 , m_shape(new sf::Sprite)
@@ -52,6 +57,12 @@ BonusEntity::BonusEntity(Bonus* bonus)
 , m_age(0)
 {
 
+	if(m_shipAttraction == 0)
+	{
+		m_shipAttraction = new Attraction();
+		m_shipAttraction->origin = ((AsteroidGame*)currentScreen)->ship->body();
+		m_shipAttraction->power = 0.02;
+	}
 	printf("new bonus\n");
 	setBody(new Body(this));
 	body()->radius = 5;
@@ -61,8 +72,7 @@ BonusEntity::BonusEntity(Bonus* bonus)
 	setPhysics(new Physics(this));
 	physics()->drag = 1.0;
 
-	Entity* ship = ((AsteroidGame*)currentScreen)->ship;
-	physics()->setAttractionPoint(ship->body(),-0.02);
+	physics()->forces.push_back(m_shipAttraction);
 
 	setView(new View(this));
 	view()->drawable = m_shape;

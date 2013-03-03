@@ -32,15 +32,21 @@
 #include <Engine/Body.h>
 #include <cmath>
 #include <Engine/World.h>
+#include <Engine/Force.h>
+
+typedef  std::list<Force*>::iterator Force_it;
+
+
 
 Physics::Physics(Entity* entity)
 :drag     (0.0)
 ,velocityX(0.0)
 ,velocityY(0.0)
 ,m_entity (entity)
-,m_attractionPoint(0)
-,m_attractionPower(0.f)
-{}
+,m_friction(new Friction)
+{
+	forces.push_back(m_friction);
+}
 
 Physics::~Physics()
 {
@@ -49,45 +55,11 @@ Physics::~Physics()
 void  Physics::update(World& world)
 {
 	// apply forces
-	if( m_attractionPoint != NULL)
+	for(Force_it it = forces.begin(); it != forces.end();it++)
 	{
-		const float max_speed = 3.0f; // pixel per cycle (16ms)
-		const float max_force = 1.0f; // pixel per cycle per cycle (16ms)
-
-		float desired_velocityX = (m_attractionPoint->x - m_entity->body()->x);
-		float desired_velocityY = (m_attractionPoint->y - m_entity->body()->y);
-		float norme  = sqrt(desired_velocityX*desired_velocityX + desired_velocityY*desired_velocityY);
-		desired_velocityX *= max_speed / norme;
-		desired_velocityY *= max_speed / norme;
-
-
-		float steeringX = desired_velocityX - velocityX;
-		float steeringY = desired_velocityY - velocityY;
-
-		norme  = sqrt(steeringX*steeringX + steeringY*steeringY);
-		if(norme > max_force)
-		{
-			steeringX *= max_force / norme;
-			steeringY *= max_force / norme;
-		}
-
-		steeringX *= m_attractionPower;
-		steeringY *= m_attractionPower;
-
-		velocityX += steeringX;
-		velocityY += steeringY;
-
-		norme  = sqrt(velocityX*velocityX + velocityY*velocityY);
-		if(norme > max_speed)
-		{
-			velocityX *= max_speed / norme;
-			velocityY *= max_speed / norme;
-		}
+		(*it)->affectEntity(m_entity);
 	}
 
-	// apply friction
-	velocityX *= drag;
-	velocityY *= drag;
 
 	//moving body if it's possible
 	m_entity->body()->x += velocityX;
@@ -108,12 +80,6 @@ void  Physics::update(World& world)
 	if(      m_entity->body()->y <  0  ) m_entity->body()->y = 600;
 	else if( m_entity->body()->y > 600 ) m_entity->body()->y = 0;
 
-}
-
-void Physics::setAttractionPoint(Body* attractionPoint, float attractionPower)
-{
-	m_attractionPoint = attractionPoint;
-	m_attractionPower = attractionPower;
 }
 
 void  Physics::thrust(float power)

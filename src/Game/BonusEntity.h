@@ -36,6 +36,8 @@ namespace sf{
 	class Texture;
 }
 
+class Attraction;
+
 class Bonus;
 class BonusEntity: public Entity, public CollisionHandler
 {
@@ -51,6 +53,8 @@ private:
     sf::Texture* m_texture;
 	Bonus*     m_bonus;
 	int        m_age;
+
+	static Attraction* m_shipAttraction;
 
 };
 
