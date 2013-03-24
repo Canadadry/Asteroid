@@ -32,7 +32,6 @@
 #include <Engine/View.h>
 #include <Engine/Health.h>
 
-#include <Game/Bonus.h>
 #include <Game/BonusEntity.h>
 #include <Game/EntityType.h>
 
@@ -112,17 +111,6 @@ bool Asteroid::HandleCollision(Body* body)
 
 void Asteroid::update()
 {
-//	m_shape->setRadius(body()->radius);
-//	if(health()->invincible())
-//	{
-//		if(m_shape->getOutlineColor() != sf::Color::Yellow)
-//			m_shape->setOutlineColor(sf::Color::Yellow);
-//	}
-//	else
-//	{
-//		if(m_shape->getOutlineColor() != sf::Color::White)
-//			m_shape->setOutlineColor(sf::Color::White);
-//	}
 }
 
 void Asteroid::onHurt()
@@ -133,7 +121,6 @@ void Asteroid::onHurt()
 	m_shape->setOrigin(body()->radius,body()->radius);
 	m_shape->scale(0.75,0.75);
 
-//	m_shape->setRadius(body()->radius);
 	physics()->velocityX *= -1 ;
 	physics()->velocityY *= -1 ;
 
@@ -145,10 +132,7 @@ void Asteroid::onHurt()
 
 	if( (body()->radius*0.75 < 10) && (frand_a_b(0.0,1.0) > 0.7))
 	{
-		int bonus_type = floor(frand_a_b(0.0,3.0)+0.5) + 1;
-		//printf("will create bonus of type %d\n",bonus_type);
-		Bonus* bonus = new Bonus(0,bonus_type,0);
-		BonusEntity* bonusEntity = new BonusEntity(bonus);
+		BonusEntity* bonusEntity = new BonusEntity();
 		bonusEntity->body()->x = body()->x ;
 		bonusEntity->body()->y = body()->y ;
 		bonusEntity->body()->radius = body()->radius;

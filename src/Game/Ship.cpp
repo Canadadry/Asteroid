@@ -33,11 +33,11 @@
 #include <Engine/Health.h>
 #include <Engine/Weapon.h>
 
+#include <Game/BonusEntity.h>
+
 #include <Game/Gun.h>
 #include <Game/EntityType.h>
-#include <Game/BonusType.h>
 #include <Game/AsteroidGame.h>
-#include <Game/Bonus.h>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -52,7 +52,6 @@ Ship::Ship()
 : Entity()
 , m_shape(new sf::Sprite )
 , m_texture(new sf::Texture)
-, m_bonus(0)
 {
 	name = "Ship";
 
@@ -69,12 +68,7 @@ Ship::Ship()
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-//	m_shape->setPoint(0,sf::Vector2f( 0.0 ,-10.0));
-//	m_shape->setPoint(1,sf::Vector2f( 5.0 , 0.0));
-//	m_shape->setPoint(2,sf::Vector2f(-5.0 , 0.0));
-//	m_shape->setFillColor(sf::Color::Transparent);
-//	m_shape->setOutlineThickness(1.0f);
-//	m_shape->setOutlineColor(sf::Color::White);
+
 	m_texture->loadFromFile(path+"ship.png");
 	m_shape->setTexture(*m_texture);
 	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
@@ -112,14 +106,6 @@ void Ship::onDied()
 
 void Ship::update()
 {
-	if(m_bonus)
-	{
-		if(m_bonus->update())
-		{
-			delete m_bonus;
-			m_bonus = 0;
-		}
-	}
 
 	AsteroidGame* agame = (AsteroidGame*)game;
 	agame->shipHealth = health()->hits;
@@ -127,38 +113,23 @@ void Ship::update()
 	if(health()->invincible())
 	{
 		m_shape->setColor(sf::Color(255,255,255,128));
-//		if(m_shape->getOutlineColor() != sf::Color::Yellow)
-//			m_shape->setOutlineColor(sf::Color::Yellow);
 	}
 	else
 	{
 		m_shape->setColor(sf::Color(255,255,255,255));
-//		if(m_shape->getOutlineColor() != sf::Color::White)
-//			m_shape->setOutlineColor(sf::Color::White);
 	}
 }
 
-void Ship::setBonus(Bonus* bonus)
+void Ship::setBonus(int bonus)
 {
-	if(m_bonus)
-	{
-		delete m_bonus;
-	}
-	m_bonus = bonus;
 
-	switch(m_bonus->type())
+	switch(bonus)
 	{
-		case BonusType::HealthBonus   : health()->hit(-1);break;
-		case BonusType::RayBonus      : ((Gun*)weapon())->rayCount++;break;
-		case BonusType::PiercingBonus : ((Gun*)weapon())->piercing = true;break;
-		case BonusType::LenghtBonus   : ((Gun*)weapon())->bulletLifeTime += 5;break;
+		case BonusEntity::HealthBonus   : health()->hit(-1);break;
+		case BonusEntity::RayBonus      : ((Gun*)weapon())->rayCount++;break;
+		case BonusEntity::PiercingBonus : ((Gun*)weapon())->piercing = true;break;
+		case BonusEntity::LenghtBonus   : ((Gun*)weapon())->bulletLifeTime += 5;break;
 		default: break;
-
-
 	}
-
-	// TODO : correct this ugly hack
-
-
 }
 

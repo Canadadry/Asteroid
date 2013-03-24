@@ -37,26 +37,29 @@
 
 #include "EntityType.h"
 #include "BonusEntity.h"
-#include "Bonus.h"
 #include "Ship.h"
-#include <Game/BonusType.h>
 #include <Game/AsteroidGame.h>
+#include <cmath>
 
+extern double frand_a_b(double a, double b);
 extern Screen* currentScreen ;
 extern std::string path;
 #define PI 3.14151
 
 
 Attraction* BonusEntity::m_shipAttraction = 0;
+const std::string BonusEntity::bonusName[BonusCount] = {"HealthBonus","RayBonus","PiercingBonus","LenghtBonus"};
 
-BonusEntity::BonusEntity(Bonus* bonus)
+
+BonusEntity::BonusEntity()
 : Entity()
 , m_shape(new sf::Sprite)
 , m_texture(new sf::Texture)
-, m_bonus(bonus)
 , m_age(0)
+, m_type(0)
 {
-	name = "Bonus";
+	m_type = floor(frand_a_b(0.0,BonusEntity::BonusCount-1)+0.5);
+	name = bonusName[m_type];
 
 	if(m_shipAttraction == 0)
 	{
@@ -64,7 +67,7 @@ BonusEntity::BonusEntity(Bonus* bonus)
 		m_shipAttraction->origin = ((AsteroidGame*)currentScreen)->ship->body();
 		m_shipAttraction->power = 0.02;
 	}
-	printf("new bonus\n");
+
 	setBody(new Body(this));
 	body()->radius = 5;
 	body()->collisionHandler = this;
@@ -77,22 +80,13 @@ BonusEntity::BonusEntity(Bonus* bonus)
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-	//m_shape->setTexture(*m_texture);
-//	m_shape->setFillColor(sf::Color::Transparent);
-//	m_shape->setOutlineThickness(1.0f);
-	switch(m_bonus->type())
+	switch(m_type)
 	{
-		case BonusType::HealthBonus   : m_texture->loadFromFile(path+"health.png");break;
-		case BonusType::RayBonus      : m_texture->loadFromFile(path+"powerup.png");break;
-		case BonusType::PiercingBonus : m_texture->loadFromFile(path+"piercingBullet.png");break;
+		case BonusEntity::HealthBonus   : m_texture->loadFromFile(path+"health.png");break;
+		case BonusEntity::RayBonus      : m_texture->loadFromFile(path+"powerup.png");break;
+		case BonusEntity::PiercingBonus : m_texture->loadFromFile(path+"piercingBullet.png");break;
 		//case BonusType::LenghtBonus   : m_texture->loadFromFile(path+"health.png");break;
 		//TODO : make lenghtBonus image
-
-//		case BonusType::HealthBonus   : m_shape->setOutlineColor(sf::Color::Red); break;
-//		case BonusType::RayBonus      : m_shape->setOutlineColor(sf::Color::Blue); break;
-//		case BonusType::PiercingBonus : m_shape->setOutlineColor(sf::Color::Green); break;
-//		case BonusType::LenghtBonus   : m_shape->setOutlineColor(sf::Color::Magenta); break;
-
 		default: break;
 	}
 
@@ -113,7 +107,7 @@ bool BonusEntity::HandleCollision(Body* body)
 	bool ret = false;
 	if(body->type == EntityType::EntityShip)
 	{
-		((Ship*)(body->entity()))->setBonus(m_bonus);
+		((Ship*)(body->entity()))->setBonus(m_type);
 		destroyed(this);
 	}
 	return ret;
@@ -121,10 +115,14 @@ bool BonusEntity::HandleCollision(Body* body)
 }
 
 
+int BonusEntity::type() const
+{
+	return m_type;
+}
+
 void BonusEntity::update()
 {
 	m_age++;
-//	if (m_age > 20) view()->alpha -= 0.2;
 	if (m_age > 1000)
 	{
 		destroyed(this);

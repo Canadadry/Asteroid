@@ -42,17 +42,30 @@ class Bonus;
 class BonusEntity: public Entity, public CollisionHandler
 {
 public:
-	BonusEntity(Bonus* bonus);
+
+	enum BonusType{
+			HealthBonus   =0,
+			RayBonus        ,
+			PiercingBonus   ,
+			LenghtBonus     ,
+			BonusCount
+	};
+
+	static const std::string bonusName[BonusCount];
+
+	BonusEntity();
 	virtual ~BonusEntity();
+
+	int type() const;
 
 	virtual bool HandleCollision(Body* body);
 	virtual void update();
 
 private:
-    sf::Sprite* m_shape;
+    sf::Sprite*  m_shape;
     sf::Texture* m_texture;
-	Bonus*     m_bonus;
-	int        m_age;
+	int          m_age;
+	int          m_type;
 
 	static Attraction* m_shipAttraction;
 

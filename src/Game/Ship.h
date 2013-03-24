@@ -49,12 +49,11 @@ public:
 
 	void onDied();
 	virtual void update();
-	void setBonus(Bonus* bonus);
+	void setBonus(int bonus);
 
 private:
     sf::Sprite* m_shape;
     sf::Texture* m_texture;
-    Bonus* m_bonus;
 };
 
 #endif /* SHIP_H_ */
