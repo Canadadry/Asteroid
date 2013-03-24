@@ -39,7 +39,8 @@ class GamePad;
 class Body;
 class Physics;
 
-#include <Engine/World.h>s
+#include <Engine/World.h>
+#include <Signal/Signal.h>
 
 class Game: public Screen
 {
@@ -52,6 +53,9 @@ public:
     virtual void update(int elapsedTimeMS) ;
 	int windowHeight() const;
 	int windowWidth() const;
+
+	Signal1<Entity*> entityAdded;
+	Signal1<Entity*> entityRemoved;
 
 protected:
     void addEntity(Entity* entity);

@@ -40,12 +40,17 @@ public:
 
 	virtual void handleEvent(const sf::Event& Event) ;
 
-	void loose(Entity* entity);
+	void asteroidAdded(Entity* entity);
+	void ending(Entity* entity);
 
 
 	int score;
 	int shipHealth;
 	Entity* ship;
+
+private:
+	int m_asteroidCount;
+
 };
 
 #endif /* ASTEROIDGAME_H_ */

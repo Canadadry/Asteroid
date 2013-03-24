@@ -42,6 +42,7 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 , score(0)
 , shipHealth(5)
 , ship(new Ship)
+, m_asteroidCount(0)
 {
 	int asteroidCount = 30;
 //	Entity* ship = new Ship();
@@ -55,7 +56,9 @@ AsteroidGame::AsteroidGame(int window_width,int window_height)
 		ship->setGamepad(new IAShip(ship));
 	}
 	addEntity(ship);
-	ship->destroyed.Connect(this,&AsteroidGame::loose);
+	ship->destroyed.Connect(this,&AsteroidGame::ending);
+	this->entityRemoved.Connect(this,&AsteroidGame::ending);
+	this->entityAdded.Connect(this,&AsteroidGame::asteroidAdded);
 
 	for(int i = 0; i<asteroidCount;i++ )
 	{
@@ -68,9 +71,30 @@ AsteroidGame::~AsteroidGame()
 {
 }
 
-void AsteroidGame::loose(Entity* entity)
+void AsteroidGame::asteroidAdded(Entity* entity)
 {
-	setNextScreen(new EndScreen(score));
+	if(entity->name == "Asteroid")
+	{
+		m_asteroidCount++;
+	}
+}
+
+void AsteroidGame::ending(Entity* entity)
+{
+	if(entity == ship)
+	{
+		setNextScreen(new EndScreen(score));
+	}
+	else if(entity->name == "Asteroid")
+	{
+		m_asteroidCount--;
+	}
+
+	if(m_asteroidCount == 0)
+	{
+		setNextScreen(new EndScreen(score*2));
+	}
+
 }
 
 
@@ -85,5 +109,7 @@ void AsteroidGame::handleEvent(const sf::Event& event)
 	}
 	Game::handleEvent(event);
 }
+
+
 
 

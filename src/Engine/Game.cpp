@@ -65,6 +65,7 @@ void Game::addEntity(Entity* entity)
 		printf("entity (%s) already added!!!\n",entity->name.c_str());
 		return;
 	}
+	entityAdded(entity);
 	entity->game = this;
 	entity->entityCreated.Connect(this,&Game::addEntity);
 	entity->destroyed.Connect(this,&Game::onEntityDestroyed);
@@ -96,6 +97,7 @@ void Game::onEntityDestroyed(Entity* entity)
 		printf("entity(%s) already register to be destroyed!!!\n",entity->name.c_str());
 		return;
 	}
+	entityRemoved(entity);
 	m_entities_to_destroyed.push_back(entity);
 }
 
