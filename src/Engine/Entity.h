@@ -75,7 +75,12 @@ public:
 	Signal1< Entity* >      entityCreated;
 	Signal1< Entity* >      destroyed;
 
+	bool                    isAlive();
 	Game*                   game;
+	std::string             name;
+
+protected:
+	void destroyThis();
 
 private:
 	Body*    m_body;
@@ -84,6 +89,7 @@ private:
 	Weapon*  m_weapon;
 	View*    m_view;
 	GamePad* m_gamepad;
+	bool     m_isAlive;
 
 };
 

@@ -35,13 +35,10 @@
 
 Force::Force()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 Force::~Force()
 {
-	// TODO Auto-generated destructor stub
 }
 
 Friction::Friction()

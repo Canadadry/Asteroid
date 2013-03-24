@@ -54,6 +54,8 @@ Ship::Ship()
 , m_texture(new sf::Texture)
 , m_bonus(0)
 {
+	name = "Ship";
+
 	setBody(new Body(this));
 	body()->x = 400;
 	body()->y = 300;

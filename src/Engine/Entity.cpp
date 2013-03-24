@@ -37,6 +37,7 @@ Entity::Entity()
 , m_weapon       (0)
 , m_view         (0)
 , m_gamepad      (0)
+, m_isAlive      (true)
 {}
 
 Entity::~Entity(){}
@@ -56,6 +57,18 @@ void Entity::setPhysics(Physics* physics)         { m_physics = physics; }
 void Entity::setView   (View*    view   )         { m_view    = view   ; }
 void Entity::setWeapon (Weapon*  weapon )         { m_weapon  = weapon ; }
 void Entity::setGamepad(GamePad* gamepad)         { m_gamepad = gamepad; }
+
+bool Entity::isAlive(){ return m_isAlive; }
+
+void Entity::destroyThis()
+{
+	if(m_isAlive)
+	{
+		destroyed(this);
+		m_isAlive=false;
+	}
+}
+
 
 
 

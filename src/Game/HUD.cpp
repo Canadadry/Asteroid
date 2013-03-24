@@ -37,6 +37,7 @@ HUD::HUD()
 : Entity()
 , m_text()
 {
+	name = "HUD";
 
 	m_font.loadFromFile(path+"visitor1.ttf");
 	setView(new View(this));

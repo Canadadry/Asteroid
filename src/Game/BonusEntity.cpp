@@ -56,6 +56,7 @@ BonusEntity::BonusEntity(Bonus* bonus)
 , m_bonus(bonus)
 , m_age(0)
 {
+	name = "Bonus";
 
 	if(m_shipAttraction == 0)
 	{

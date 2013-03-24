@@ -62,7 +62,7 @@ void Game::addEntity(Entity* entity)
 	Entity_it findIter = std::find(m_entities.begin(), m_entities.end(), entity);
 	if(findIter != m_entities.end())
 	{
-		printf("entity already added!!!\n");
+		printf("entity (%s) already added!!!\n",entity->name.c_str());
 		return;
 	}
 	entity->game = this;
@@ -93,7 +93,7 @@ void Game::onEntityDestroyed(Entity* entity)
 
 	if(findIter != m_entities_to_destroyed.end())
 	{
-		printf("entity already register to be destroyed!!!\n");
+		printf("entity(%s) already register to be destroyed!!!\n",entity->name.c_str());
 		return;
 	}
 	m_entities_to_destroyed.push_back(entity);

@@ -16,6 +16,29 @@
 
 //namespace Gallant {
 
+// TODO : fix signal can be emitted by anyone
+//
+//    solution :
+//
+//	class Signal0{
+//		friend class SignalEniter0;
+//	private:
+//		std::list<Delegate0> m_delegate;
+//
+//	public:
+//		void connect(delegate);
+//		void disconnect();
+//	};
+//
+//     class SignalEniter0{
+//     public:
+//    	 Signal0& signal();
+//    	 void emit();
+//     private:
+//    	 Signal0 m_signal;
+//     };
+//
+
 template< class Param0 = void >
 class Signal0
 {

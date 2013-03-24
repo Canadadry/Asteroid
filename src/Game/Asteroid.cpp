@@ -51,6 +51,8 @@ Asteroid::Asteroid()
 , m_shape(new sf::Sprite )
 , m_texture(new sf::Texture)
 {
+	name = "Asteroid";
+
 	setBody(new Body(this));
 	body()->angle = frand_a_b(0.0,360.0);
 	body()->radius = frand_a_b(5.0,30.0);
@@ -66,10 +68,7 @@ Asteroid::Asteroid()
 
 	setView(new View(this));
 	view()->drawable = m_shape;
-//	m_shape->setFillColor(sf::Color::Transparent);
-//	m_shape->setOutlineThickness(1.0f);
-//	m_shape->setOutlineColor(sf::Color::White);
-//	m_shape->setOrigin(body()->radius,body()->radius);
+
 	m_texture->loadFromFile(path+"rock.png");
 	m_shape->setTexture(*m_texture);
 	m_shape->setOrigin(sf::Vector2f(m_texture->getSize().x/2,m_texture->getSize().y/2));
@@ -85,7 +84,7 @@ Asteroid::Asteroid()
 
 Asteroid::~Asteroid()
 {
-	if(health()->hits > 0) destroyed(this);
+	destroyThis();
 
 	delete body();
 	delete physics();
@@ -140,7 +139,7 @@ void Asteroid::onHurt()
 
 	if(body()->radius < 10)
 	{
-		destroyed(this);
+		destroyThis();
 		return;
 	}
 

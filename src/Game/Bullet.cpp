@@ -48,6 +48,8 @@ Bullet::Bullet(int lifeTime,bool piercing)
 , m_lifeTime(lifeTime)
 , m_isPiercing(piercing)
 {
+	name = "Bullet";
+
 	setBody(new Body(this));
 	body()->radius = 4;
 	body()->collisionHandler = this;
@@ -88,7 +90,10 @@ bool Bullet::HandleCollision(Body* body)
 		body->entity()->health()->hit(1);break;
 		}
 	}
-	if(!m_isPiercing) destroyed(this);
+	if(!m_isPiercing)
+	{
+		destroyThis();
+	}
 	return ret;
 }
 
@@ -99,7 +104,7 @@ void Bullet::update()
 //	if (m_age > 20) view()->alpha -= 0.2;
 	if (m_age > m_lifeTime)
 	{
-		destroyed(this);
+		destroyThis();
 	}
 }
 
